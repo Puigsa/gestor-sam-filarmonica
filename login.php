@@ -28,8 +28,9 @@ if (isset($_POST['login'])) {
             if (!password_verify($password, $fila['password'])) {
                 $mensaje = "Contraseña incorrecta";
             } else {
-                $_SESSION['id_usuario'] = $fila['id'];
-                $_SESSION['user'] = $fila['nombre'];
+                $_SESSION['id_usuario'] = $fila['id_usuario'];
+                $_SESSION['nombre'] = $fila['nombre'];
+                $_SESSION['email'] = $fila['email'];
                 $_SESSION['rol'] = $fila['rol'];
 
                 redirigirSegunRol();

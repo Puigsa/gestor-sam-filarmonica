@@ -7,8 +7,14 @@ if (session_status() == PHP_SESSION_NONE) {
 date_default_timezone_set("Europe/Madrid");
 
 
-function conectar() {
-    $conexion = new mysqli("localhost", "root", "", "gestor_sam_filarmonica");
+
+function conectar()
+{
+    $host    = "localhost";
+    $usuario = "root";
+    $pass    = "";
+    $db      = "escuela_filarmonica";
+    $conexion = new mysqli($host, $usuario, "", $db);
 
     if ($conexion->connect_error) {
         die("Error de conexión: " . $conexion->connect_error);
@@ -19,6 +25,7 @@ function conectar() {
     return $conexion;
 }
 
-function desconectar($conexion) {
+function desconectar($conexion)
+{
     $conexion->close();
 }
