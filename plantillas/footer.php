@@ -20,9 +20,9 @@
 
         <div class="footer-social">
             <div class="redes-sociales">
-                <a href="#" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="#" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+                <a href="https://www.facebook.com/filarmonicadecallosa" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/filarmonica_callosa/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@LaFilarmonicaCallosa" target="_blank"><i class="fa-brands fa-youtube"></i></a>
             </div>
         </div>
 
@@ -30,11 +30,12 @@
 
     <div class="footer-credito">
         <p>&copy; 2026 SAM La Filarmónica. Todos los derechos reservados.</p>
-        <a href="#">Aviso Legal</a>
-        <a href="#">Política de Privacidad</a>
-        <a href="#">Cookies</a>
+        <a href="aviso_legal.php">Aviso Legal</a>
+        <a href="privacidad.php">Política de Privacidad</a>
+        <a href="cookies.php">Cookies</a>
     </div>
 </footer>
 
 </body>
+
 </html>

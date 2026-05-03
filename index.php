@@ -13,27 +13,27 @@
                 <div class="card">
                     <img src="estaticos/img/slideshow/solfeo.jpg" alt="Clases de solfeo y teoría musical">
                     <div class="card-body">
-                        <h3>Solfeo</h3>
+                        <h3>LENGUAJE MUSICAL</h3>
                         <p>Aprende lectura musical y teoría desde cero.</p>
-                        <button class="btn-card">Más info</button>
+                        <a href="escuela.php"><button class="btn-card">Más info</button></a>
                     </div>
                 </div>
 
                 <div class="card">
                     <img src="estaticos/img/slideshow/trompa.jpg" alt="Lecciones de instrumentos de viento">
                     <div class="card-body">
-                        <h3>Instrumento</h3>
+                        <h3>ENSEÑANZAS INSTRUMENTALES</h3>
                         <p>Aprende a tocar un instrumento.</p>
-                        <button class="btn-card">Más info</button>
+                        <a href="escuela.php"><button class="btn-card">Más info</button></a>
                     </div>
                 </div>
 
                 <div class="card">
                     <img src="estaticos/img/slideshow/uniformes.JPG" alt="Banda completa en uniforme oficial">
                     <div class="card-body">
-                        <h3>Banda</h3>
+                        <h3>AGRUPACIONES DOCENTES</h3>
                         <p>Forma parte de nuestra banda.</p>
-                        <button class="btn-card">Más info</button>
+                        <a href="escuela.php"><button class="btn-card">Más info</button></a>
                     </div>
                 </div>
 

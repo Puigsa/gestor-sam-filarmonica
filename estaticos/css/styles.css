@@ -5,7 +5,8 @@
     padding: 0;
 }
 
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
 }
@@ -32,6 +33,18 @@ img {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+h1,
+h2,
+h3 {
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
 }
 
 /* ========================================= 2. ESTILOS MÓVIL (Por defecto) ========================================= */
@@ -102,6 +115,21 @@ a {
     color: #0D1B2A;
 }
 
+.bloque {
+    background: white;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    text-align: left;
+}
+
+.bloque h2,
+.bloque h3 {
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
 /* ========================= BANNER ========================= */
 .banner {
     background-color: #0D1B2A;
@@ -141,7 +169,7 @@ a {
 /* ========================= SECCIONES ========================= */
 section {
     padding: 3rem 1rem;
-    text-align: center;
+    text-align: left;
 }
 
 h2 {
@@ -150,9 +178,106 @@ h2 {
     font-size: 1.5rem;
 }
 
+fieldset {
+    border: 1px solid #ddd;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+fieldset input,
+fieldset select,
+fieldset textarea {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+legend {
+    font-weight: bold;
+    padding: 0 10px;
+    color: #0D1B2A;
+}
+
+
+ul,
+ol {
+    margin: 0;
+    padding: 0;
+    list-style-position: inside;
+}
+
+li {
+    margin-bottom: 0.4rem;
+    line-height: 1.4;
+}
+
+/* ========================= GALERÍA EVENTOS ========================= */
+
+.galeria-eventos {
+    padding: 2rem 1rem;
+}
+
+.grid-galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+}
+
+.grid-galeria img {
+    width: 100%;
+    height: 160px;
+    object-fit: fit;
+    border-radius: 8px;
+}
+
+/* ========================= FORMULARIO DE CONTACTO ========================= */
+
+
+.contacto-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.contacto-info li {
+    margin-bottom: 0.5rem;
+}
+
+.contacto-form {
+    max-width: none;
+    margin: 0;
+}
+
+.form-contacto {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.form-contacto input,
+.form-contacto textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.form-contacto button {
+    background: #800020;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.form-contacto button:hover {
+    background: #5e0018;
+}
+
 /* ========================= TARJETAS ========================= */
 .tarjetas {
     display: grid;
+    text-align: center;
     grid-template-columns: 1fr;
     gap: 1.5rem;
     align-items: center;
@@ -202,6 +327,44 @@ h2 {
     transform: scale(1.05);
 }
 
+
+.form-prematricula {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 600px;
+}
+
+.form-prematricula input,
+.form-prematricula select,
+.form-prematricula textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.form-prematricula button {
+    background: #800020;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.form-prematricula button:hover {
+    background: #5e0018;
+}
+
+
+.contacto .fa-brands {
+    font-size: 1.5rem;
+    padding-right: 1.5rem;
+    margin-left: 20px;
+    color: #0D1B2A;
+    transition: color 0.3s;
+}
 /* ========================= FOOTER ========================= */
 .footer-contenedor {
     background-color: #f8f9fa;
@@ -238,7 +401,7 @@ h2 {
     .tarjetas .card:nth-child(3) {
         grid-column: 1 / 3;
         justify-self: center;
-        max-width: 400px;
+
     }
 
     .footer-contenedor {
@@ -259,10 +422,19 @@ h2 {
         text-align: center;
     }
 
-    .redes-sociales {
+    footer .redes-sociales {
         display: flex;
         justify-content: center;
         gap: 1rem;
+    }
+
+    .contacto-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .contacto-info{
+        grid-column: 1;
     }
 }
 
@@ -293,6 +465,15 @@ h2 {
         justify-content: center;
         align-items: center;
         gap: 2rem;
+    }
+
+    section {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    section .bloque {
+        max-width: 900px;
     }
 
     #icono {
@@ -348,4 +529,22 @@ h2 {
         grid-column: auto;
         grid-row: auto;
     }
+
+    .contacto-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        width: 1200px;
+        margin: 0 auto;
+    }
+    .contacto-form {
+    max-width: 80%;
+    margin: 0;
+    }   
+    .contacto-info {
+        grid-column: 1;
+        width: 100%;
+}
+
+   
 }

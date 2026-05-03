@@ -1,8 +1,8 @@
-<section class="banner">
+<div class="banner">
     <div class="banner-texto">
         <h1>SAM LA FILARMÓNICA</h1>
         <p>Aprende música con nosotros y forma parte de nuestra historia</p>
-        <button class="btn-banner">Matricúlate ahora</button>
+        <a href="matricula.php"><button class="btn-banner">Matricúlate ahora</button></a>
     </div>
 
     <div class="banner-carrusel">
@@ -40,4 +40,4 @@
             Autoplay
         }).init();
     </script>
-</section>
+</div>
