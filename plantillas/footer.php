@@ -12,7 +12,7 @@
                 <a href="https://www.instagram.com/filarmonica_callosa/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
                 <a href="https://www.youtube.com/@LaFilarmonicaCallosa" target="_blank"><i class="fa-brands fa-youtube"></i></a>
                 <a href="https://wa.me/1234567890" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-                <a href="mailto:tuemail@dominio.com" target="_blank"><i class="fa-solid fa-envelope"></i></a>
+                <a href="mailto:email@filarmonica.com" target="_blank"><i class="fa-solid fa-envelope"></i></a>
             </div>
         </div>
 

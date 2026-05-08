@@ -86,7 +86,7 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
 }
 ?>
 
-<main class="main">
+<main >
     <section class="bloque">
 
         <article>

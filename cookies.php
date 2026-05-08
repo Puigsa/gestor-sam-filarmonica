@@ -1,7 +1,7 @@
 <?php include "plantillas/header.php"; ?>
 <?php include "plantillas/navbar.php"; ?>
 
-<main class="main">
+<main>
     <section class="bloque">
         <h1>Política de Cookies</h1>
 

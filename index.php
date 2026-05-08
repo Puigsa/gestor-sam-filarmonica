@@ -1,13 +1,13 @@
 <?php include "plantillas/header.php"; ?>
 <?php include "plantillas/navbar.php"; ?>
 
-<main class="main">
+<main>
 
     <?php include "plantillas/hero_inicio.php"; ?>
 
-    <section class="programas">
+    <section class="bloque programas">
         <div class="contenedor">
-            <h2>Oferta Educativa</h2>
+            <h1>Oferta Educativa</h1>
             <div class="tarjetas">
 
                 <div class="card">
@@ -41,8 +41,8 @@
         </div>
     </section>
 
-    <section class="banda-contenedor">
-        <h2>Nuestra banda</h2>
+    <section class="bloque banda-contenedor">
+        <h1>Nuestra banda</h1>
         <div class="banda">
             <p class="banda-texto">
                 La Sociedad de Arte Musical La Filarmónica de Callosa de Segura es una de las
@@ -60,13 +60,11 @@
         </div>
     </section>
 
-    <section class="eventos">
-        <h2>Próximos Eventos</h2>
-        <iframe src="https://calendar.google.com/calendar/embed?..." style="border: 0" height="300px"
-            frameborder="0" scrolling="no">
-        </iframe>
-    </section>
+    <section class="bloque proximos">
+    <h2>Próximos eventos</h2>
+    <div id="proximos-eventos">Cargando...</div>
+    <a href="eventos.php" class="btn-card">Ver todos los eventos</a>
+</section>
 
 </main>
-
 <?php include "plantillas/footer.php"; ?>

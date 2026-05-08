@@ -45,13 +45,13 @@ include "plantillas/header.php";
 include "plantillas/navbar.php";
 ?>
 
-<main class="main">
-    <section class="login">
+<main>
+    <section class="bloque login">
         <h2>Iniciar sesión</h2>
 
         <form action="login.php" method="POST">
-            <input type="email" name="email" placeholder="Correo electrónico" value="<?php echo $email; ?>"><br>
-            <input type="password" name="password" placeholder="Contraseña"><br>
+            <input type="email" name="email" placeholder="Correo electrónico" value="<?php echo $email; ?>" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
             <button type="submit" name="login">Iniciar sesión</button>
         </form>
 

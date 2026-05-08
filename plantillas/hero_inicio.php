@@ -1,4 +1,5 @@
 <div class="banner">
+
     <div class="banner-texto">
         <h1>SAM LA FILARMÓNICA</h1>
         <p>Aprende música con nosotros y forma parte de nuestra historia</p>
@@ -19,25 +20,26 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.umd.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.arrows.umd.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.dots.umd.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.autoplay.umd.js"></script>
 
-    <script>
-        Carousel(document.getElementById("myCarousel"), {
-            Autoplay: {
-                pauseOnHover: true,
-                timeout: 6000
-            },
-            style: {
-                "--f-progressbar-color": "#111",
-                "--f-progressbar-height": "2px",
-            },
-        }, {
-            Arrows,
-            Dots,
-            Autoplay
-        }).init();
-    </script>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.arrows.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.dots.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.autoplay.umd.js"></script>
+
+<script>
+    Carousel(document.getElementById("myCarousel"), {
+        Autoplay: {
+            pauseOnHover: true,
+            timeout: 6000
+        },
+        style: {
+            "--f-progressbar-color": "#111",
+            "--f-progressbar-height": "2px",
+        },
+    }, {
+        Arrows,
+        Dots,
+        Autoplay
+    }).init();
+</script>

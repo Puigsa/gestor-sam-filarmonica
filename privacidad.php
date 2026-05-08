@@ -1,7 +1,7 @@
 <?php include "plantillas/header.php"; ?>
 <?php include "plantillas/navbar.php"; ?>
 
-<main class="main">
+<main>
     <section class="bloque">
         <h1>Política de Privacidad</h1>
 
@@ -17,21 +17,21 @@
         </ul>
 
         <h2>Legitimación</h2>
-        <p>El tratamiento de sus datos se basa en el consentimiento del interesado 
-        y en la relación contractual derivada de la matrícula en la escuela.</p>
+        <p>El tratamiento de sus datos se basa en el consentimiento del interesado
+            y en la relación contractual derivada de la matrícula en la escuela.</p>
 
         <h2>Conservación</h2>
-        <p>Los datos se conservarán mientras exista una relación activa con la entidad 
-        o durante el tiempo necesario para cumplir con las obligaciones legales.</p>
+        <p>Los datos se conservarán mientras exista una relación activa con la entidad
+            o durante el tiempo necesario para cumplir con las obligaciones legales.</p>
 
         <h2>Derechos</h2>
-        <p>Puede ejercer sus derechos de acceso, rectificación, supresión, 
-        oposición y portabilidad dirigiéndose a SAM La Filarmónica 
-        a través de los datos de contacto disponibles en esta web.</p>
+        <p>Puede ejercer sus derechos de acceso, rectificación, supresión,
+            oposición y portabilidad dirigiéndose a SAM La Filarmónica
+            a través de los datos de contacto disponibles en esta web.</p>
 
         <h2>Seguridad</h2>
-        <p>SAM La Filarmónica aplica medidas técnicas y organizativas 
-        para garantizar la seguridad de sus datos personales.</p>
+        <p>SAM La Filarmónica aplica medidas técnicas y organizativas
+            para garantizar la seguridad de sus datos personales.</p>
     </section>
 </main>
 

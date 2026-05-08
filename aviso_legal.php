@@ -3,7 +3,7 @@ include "plantillas/header.php";
 include "plantillas/navbar.php"; 
 ?>
 
-<main class="main">
+<main>
     <section>
         <h1>Aviso Legal</h1>
 
