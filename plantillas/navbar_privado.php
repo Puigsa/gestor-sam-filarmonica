@@ -1,7 +1,6 @@
 <?php
-require "../includes/funciones.php";
+require_once "../includes/funciones.php";
 
-comprobarAcceso() ;
 $rol = $_SESSION['rol'];
 $nombre = $_SESSION['nombre'];
 
@@ -9,6 +8,13 @@ $nombre = $_SESSION['nombre'];
 
 <!-- Franja superior -->
 <div class="navbar-privado-top">
+    <!-- Toggle sidebar móvil -->
+    <div class="sidebar-toggle" id="sidebarToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    
     <div class="breadcrumb">
         <?php
         $pagina_actual = basename($_SERVER['PHP_SELF']);
@@ -31,36 +37,70 @@ $nombre = $_SESSION['nombre'];
     </div>
     <div class="usuario-info">
         <span>Hola, <?= $nombre ?></span>
-        <a href="logout.php" class="btn-logout">Cerrar Sesión</a>
+        <a href="../logout.php" class="btn-logout">Cerrar Sesión</a>
     </div>
 </div>
 
+<!-- Overlay sidebar -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
 <!-- Sidebar -->
-<aside class="sidebar">
+<aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
-        <img src="estaticos/img/logo.png" alt="Logo">
+        <img src="../estaticos/img/cecilio.png " alt="Logo">
     </div>
     
     <nav class="sidebar-menu">
         <?php if ($rol === 'admin') { ?>
-            <a href="admin/index.php" class="menu-item">Dashboard</a>
-            <a href="admin/usuarios.php" class="menu-item">Usuarios</a>
-            <a href="admin/cursos.php" class="menu-item">Cursos</a>
-            <a href="admin/matriculas.php" class="menu-item">Matrículas</a>
-            <a href="admin/pagos.php" class="menu-item">Pagos</a>
-            <a href="admin/eventos.php" class="menu-item">Eventos</a>
+            <a href="index.php" class="menu-item">Dashboard</a>
+            <a href="usuarios.php" class="menu-item">Usuarios</a>
+            <a href="cursos.php" class="menu-item">Cursos</a>
+            <a href="matriculas.php" class="menu-item">Matrículas</a>
+            <a href="pagos.php" class="menu-item">Pagos</a>
+            <a href="eventos.php" class="menu-item">Eventos</a>
         
         <?php } else if ($rol === 'profesor') { ?>
-            <a href="profesor/index.php" class="menu-item">Dashboard</a>
-            <a href="profesor/cursos.php" class="menu-item">Mis cursos</a>
-            <a href="profesor/anuncios.php" class="menu-item">Anuncios</a>
-            <a href="profesor/recursos.php" class="menu-item">Recursos</a>
+            <a href="index.php" class="menu-item">Dashboard</a>
+            <a href="cursos.php" class="menu-item">Mis cursos</a>
+            <a href="anuncios.php" class="menu-item">Anuncios</a>
+            <a href="recursos.php" class="menu-item">Recursos</a>
         
        <?php } else if ($rol === 'alumno') { ?>
-            <a href="alumno/index.php" class="menu-item">Dashboard</a>
-            <a href="alumno/cursos.php" class="menu-item">Mis cursos</a>
-            <a href="alumno/anuncios.php" class="menu-item">Anuncios</a>
-            <a href="alumno/recursos.php" class="menu-item">Recursos</a>
+            <a href="index.php" class="menu-item">Dashboard</a>
+            <a href="cursos.php" class="menu-item">Mis cursos</a>
+            <a href="anuncios.php" class="menu-item">Anuncios</a>
+            <a href="recursos.php" class="menu-item">Recursos</a>
         <?php } ?>
     </nav>
 </aside>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebarOverlay");
+    const links = document.querySelectorAll(".sidebar-menu a");
+
+    if (!sidebarToggle || !sidebar || !overlay) return;
+
+    function openSidebar() {
+        sidebar.classList.add("active");
+        sidebarToggle.classList.add("active");
+        overlay.classList.add("active");
+    }
+
+    function closeSidebar() {
+        sidebar.classList.remove("active");
+        sidebarToggle.classList.remove("active");
+        overlay.classList.remove("active");
+    }
+
+    sidebarToggle.addEventListener("click", () => {
+        sidebar.classList.contains("active") ? closeSidebar() : openSidebar();
+    });
+
+    overlay.addEventListener("click", closeSidebar);
+    
+    links.forEach((link) => link.addEventListener("click", closeSidebar));
+});
+</script>

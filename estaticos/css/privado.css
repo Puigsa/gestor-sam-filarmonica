@@ -67,8 +67,8 @@
 }
 
 .sidebar-logo img {
-    width: 80%;
-    max-width: 150px;
+    width: 100%;
+    max-width: 250px;
 }
 
 .sidebar-menu {
@@ -110,6 +110,209 @@ body {
     margin: 0 auto;
 }
 
+
+
+/* ========================= TABLAS ========================= */
+.tabla-usuarios,
+.tabla-cursos,
+.tabla-matriculas,
+.tabla-pagos,
+.tabla-eventos {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+table thead {
+    background: #0D1B2A;
+    color: white;
+}
+
+table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+}
+
+table td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+table tbody tr:hover {
+    background: #f5f5f5;
+}
+
+/* ========================= BOTONES ========================= */
+.btn-crear,
+.btn-editar,
+.btn-eliminar,
+.btn-aprobar,
+.btn-rechazar {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-crear {
+    background: #800020;
+    color: white;
+    margin-bottom: 1.5rem;
+}
+
+.btn-crear:hover {
+    background: #5e0018;
+}
+
+.btn-editar {
+    background: #0D1B2A;
+    color: white;
+    margin-right: 0.5rem;
+}
+
+.btn-editar:hover {
+    background: #1a2f47;
+}
+
+.btn-eliminar {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-eliminar:hover {
+    background: #c82333;
+}
+
+.btn-aprobar {
+    background: #28a745;
+    color: white;
+    margin-right: 0.5rem;
+}
+
+.btn-aprobar:hover {
+    background: #218838;
+}
+
+.btn-rechazar {
+    background: #ffc107;
+    color: #333;
+}
+
+.btn-rechazar:hover {
+    background: #e0a800;
+}
+
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 600px;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================= FORMULARIOS ========================= */
+
+form input,
+form select,
+form textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+    outline: none;
+    border-color: #800020;
+    box-shadow: 0 0 5px rgba(128, 0, 32, 0.3);
+}
+
+form button {
+    background: #800020;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+form button:hover {
+    background: #5e0018;
+}
+
+.mensaje {
+    padding: 1rem;
+    border-radius: 6px;
+    margin-top: 1rem;
+}
+
+
+/* ========================= DASHBOARD ========================= */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.dashboard-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+}
+
+.dashboard-card h3 {
+    color: #0D1B2A;
+    margin-bottom: 1rem;
+}
+
+.dashboard-card .numero {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #800020;
+    margin: 1rem 0;
+}
+
+.dashboard-card a {
+    display: inline-block;
+    background: #0D1B2A;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    margin-top: 1rem;
+    transition: background 0.3s;
+}
+
+.dashboard-card a:hover {
+    background: #1a2f47;
+}
+
+
+
 /* Responsive */
 @media (max-width: 768px) {
     .sidebar {
@@ -143,7 +346,7 @@ body {
     }
     
     .sidebar-logo img {
-        max-width: 100px;
+        max-width: 50px;
     }
     
     .menu-item {

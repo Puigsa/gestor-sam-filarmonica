@@ -1,6 +1,6 @@
 <?php
 include "includes/config.php";
-include "includes/funciones.php";
+require_once "includes/funciones.php";
 include "plantillas/header.php";
 include "plantillas/navbar.php";
 

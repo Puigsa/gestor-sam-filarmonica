@@ -46,13 +46,14 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
     $dni = trim($_POST['dni']);
     $fecha_nacimiento = $_POST['fecha_nacimiento'];
     $id_curso = $_POST['id_curso'];
-    $instrumento = trim($_POST['id_instrumento']);
+    $id_instrumento = $_POST['id_instrumento'];
     $observaciones = trim($_POST['observaciones']);
+    $direccion = trim($_POST['direccion']);
 
     if (
         empty($nombre) || empty($apellidos) || empty($email) ||
         empty($telefono) || empty($dni) || empty($fecha_nacimiento) ||
-        empty($id_curso)
+        empty($id_curso) || empty($direccion)
     ) {
         $error = "Debe rellenar todos los campos obligatorios.";
     } else {
@@ -62,9 +63,9 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
             $error = "Ya existe una solicitud de prematrícula para este curso con ese DNI.";
         } else {
             $insert = "INSERT INTO prematriculas
-                    (nombre, apellidos, email, telefono, dni, fecha_nacimiento, id_curso, instrumento, observaciones, estado, fecha_solicitud)
+                    (nombre, apellidos, email, telefono, dni, fecha_nacimiento, id_curso, id_instrumento, observaciones, estado, direccion, fecha_solicitud)
                     VALUES
-                    ('$nombre', '$apellidos', '$email', '$telefono', '$dni', '$fecha_nacimiento', '$id_curso', '$instrumento', '$observaciones', 'pendiente', CURDATE())";
+                    ('$nombre', '$apellidos', '$email', '$telefono', '$dni', '$fecha_nacimiento', '$id_curso', '$id_instrumento', '$observaciones', 'pendiente', '$direccion', CURDATE())";
 
             if ($conexion->query($insert)) {
                 $exito = "Solicitud enviada correctamente. Nos pondremos en contacto con usted.";
@@ -76,8 +77,9 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
                 $dni = "";
                 $fecha_nacimiento = "";
                 $id_curso = "";
-                $instrumento = "";
+                $id_instrumento = "";
                 $observaciones = "";
+                $direccion = "";
             } else {
                 $error = "Error al enviar la solicitud.";
             }
@@ -152,12 +154,13 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
                     <fieldset>
                         <legend>Datos personales</legend>
 
-                        <input type="text" name="nombre" placeholder="Nombre" required value="<?= $nombre ?>">
-                        <input type="text" name="apellidos" placeholder="Apellidos" required value="<?= $apellidos ?>">
-                        <input type="email" name="email" placeholder="Email" required value="<?= $email ?>">
-                        <input type="text" name="telefono" placeholder="Teléfono" required value="<?= $telefono ?>">
-                        <input type="text" name="dni" placeholder="DNI" required value="<?= $dni ?>">
-                        <input type="date" name="fecha_nacimiento" required value="<?= $fecha_nacimiento ?>">
+                       Nombre: <input type="text" name="nombre" placeholder="Nombre" required value="<?= $nombre ?>">
+                       Apellidos: <input type="text" name="apellidos" placeholder="Apellidos" required value="<?= $apellidos ?>">
+                       Email: <input type="email" name="email" placeholder="Email" required value="<?= $email ?>">
+                       Teléfono: <input type="text" name="telefono" placeholder="Teléfono" required value="<?= $telefono ?>">
+                       DNI: <input type="text" name="dni" placeholder="DNI" required value="<?= $dni ?>">
+                       Fecha de nacimiento: <input type="date" name="fecha_nacimiento" required value="<?= $fecha_nacimiento ?>">
+                       Dirección: <input type="text" name="direccion" placeholder="Dirección" value="<?= $direccion ?>">
                     </fieldset>
 
                     <fieldset>
@@ -179,11 +182,11 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
 
                         </div>
 
-                        <select name="instrumento">
+                        <select name="id_instrumento">
                             <option value="">Seleccione instrumento</option>
 
                             <?php while ($i = $instrumentos->fetch_assoc()) { ?>
-                                <option value="<?= $i['nombre'] ?>" <?php if ($instrumento == $i['nombre']) echo "selected" ?>>
+                                <option value="<?= $i['id_instrumento'] ?>" <?php if ($id_instrumento == $i['id_instrumento']) echo "selected" ?>>
                                     <?= $i['nombre'] ?>
                                 </option>
                             <?php } ?>
