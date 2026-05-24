@@ -7,7 +7,6 @@ require_once "includes/config.php";
 $inicio_plazo = "2026-06-01";
 $fin_plazo = "2026-07-15";
 $hoy = date("Y-m-d");
-
 //$plazo_abierto = ($hoy >= $inicio_plazo && $hoy <= $fin_plazo);
 $plazo_abierto = true; // Para pruebas, siempre abierto
 $conexion = conectar();
@@ -27,8 +26,13 @@ $dni = "";
 $fecha_nacimiento = "";
 $id_curso = "";
 $id_instrumento = "";
-$instrumento = "";
 $observaciones = "";
+$direccion = "";
+$tutor_nombre = "";
+$tutor_dni = "";
+$tutor_email = "";
+$tutor_telefono = "";
+$consentimiento = "";
 
 // Cargar cursos
 $cursos = $conexion->query("SELECT id_curso, nombre FROM cursos ORDER BY id_curso ASC");
@@ -38,6 +42,7 @@ $instrumentos = $conexion->query("SELECT id_instrumento, nombre FROM instrumento
 if (!$cursos) {
     die("Error al cargar cursos: " . $conexion->error);
 }
+
 if ($plazo_abierto && isset($_POST['prematricular'])) {
     $nombre = trim($_POST['nombre']);
     $apellidos = trim($_POST['apellidos']);
@@ -49,6 +54,11 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
     $id_instrumento = $_POST['id_instrumento'];
     $observaciones = trim($_POST['observaciones']);
     $direccion = trim($_POST['direccion']);
+    $tutor_nombre = trim($_POST['tutor_nombre'] ?? '');
+    $tutor_dni = trim($_POST['tutor_dni'] ?? '');
+    $tutor_email = trim($_POST['tutor_email'] ?? '');
+    $tutor_telefono = trim($_POST['tutor_telefono'] ?? '');
+    $consentimiento = isset($_POST['consentimiento']) ? 1 : 0;
 
     if (
         empty($nombre) || empty($apellidos) || empty($email) ||
@@ -56,39 +66,60 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
         empty($id_curso) || empty($direccion)
     ) {
         $error = "Debe rellenar todos los campos obligatorios.";
+    } else if (!validarEmail($email)) {
+        $error = "Email inválido";
+    } else if (!validarDNI($dni)) {
+        $error = "DNI/NIE inválido";
+    } else if (!validarTelefono($telefono)) {
+        $error = "Teléfono inválido (9 dígitos)";
     } else {
-        $comprobar = $conexion->query("SELECT id_prematricula FROM prematriculas WHERE dni='$dni' AND id_curso='$id_curso'");
 
-        if ($comprobar->num_rows > 0) {
-            $error = "Ya existe una solicitud de prematrícula para este curso con ese DNI.";
-        } else {
-            $insert = "INSERT INTO prematriculas
-                    (nombre, apellidos, email, telefono, dni, fecha_nacimiento, id_curso, id_instrumento, observaciones, estado, direccion, fecha_solicitud)
-                    VALUES
-                    ('$nombre', '$apellidos', '$email', '$telefono', '$dni', '$fecha_nacimiento', '$id_curso', '$id_instrumento', '$observaciones', 'pendiente', '$direccion', CURDATE())";
+        // Si es menor, validar datos de tutor
+        if ($edad < 18) {
+            if (empty($tutor_nombre) || empty($tutor_dni) || empty($tutor_email) || empty($tutor_telefono) || !$consentimiento) {
+                $error = "Para menores de edad, debe rellenar los datos del tutor legal y dar consentimiento.";
+            }
+        }
 
-            if ($conexion->query($insert)) {
-                $exito = "Solicitud enviada correctamente. Nos pondremos en contacto con usted.";
+        if (empty($error)) {
+            $comprobar = $conexion->query("SELECT id_prematricula FROM prematriculas WHERE dni='$dni' AND id_curso='$id_curso'");
 
-                $nombre = "";
-                $apellidos = "";
-                $email = "";
-                $telefono = "";
-                $dni = "";
-                $fecha_nacimiento = "";
-                $id_curso = "";
-                $id_instrumento = "";
-                $observaciones = "";
-                $direccion = "";
+            if ($comprobar->num_rows > 0) {
+                $error = "Ya existe una solicitud de prematrícula para este curso con ese DNI.";
             } else {
-                $error = "Error al enviar la solicitud.";
+                $insert = "INSERT INTO prematriculas
+                        (nombre, apellidos, email, telefono, dni, fecha_nacimiento, id_curso, id_instrumento, observaciones, estado, direccion, tutor_nombre, tutor_dni, tutor_email, tutor_telefono, consentimiento, fecha_solicitud)
+                        VALUES
+                        ('$nombre', '$apellidos', '$email', '$telefono', '$dni', '$fecha_nacimiento', '$id_curso', '$id_instrumento', '$observaciones', 'pendiente', '$direccion', '$tutor_nombre', '$tutor_dni', '$tutor_email', '$tutor_telefono', $consentimiento, CURDATE())";
+
+                if ($conexion->query($insert)) {
+                    $exito = "Solicitud enviada correctamente. Nos pondremos en contacto con usted.";
+
+                    $nombre = "";
+                    $apellidos = "";
+                    $email = "";
+                    $telefono = "";
+                    $dni = "";
+                    $fecha_nacimiento = "";
+                    $id_curso = "";
+                    $id_instrumento = "";
+                    $observaciones = "";
+                    $direccion = "";
+                    $tutor_nombre = "";
+                    $tutor_dni = "";
+                    $tutor_email = "";
+                    $tutor_telefono = "";
+                    $consentimiento = "";
+                } else {
+                    $error = "Error al enviar la solicitud.";
+                }
             }
         }
     }
 }
 ?>
 
-<main >
+<main>
     <section class="bloque">
 
         <article>
@@ -149,18 +180,36 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
 
             <form action="matricula.php" method="POST" class="form-prematricula">
                 <fieldset>
-                    <legend>Formulario Prematrícula </legend>
+                    <legend>Formulario Prematrícula</legend>
 
                     <fieldset>
                         <legend>Datos personales</legend>
 
-                       Nombre: <input type="text" name="nombre" placeholder="Nombre" required value="<?= $nombre ?>">
-                       Apellidos: <input type="text" name="apellidos" placeholder="Apellidos" required value="<?= $apellidos ?>">
-                       Email: <input type="email" name="email" placeholder="Email" required value="<?= $email ?>">
-                       Teléfono: <input type="text" name="telefono" placeholder="Teléfono" required value="<?= $telefono ?>">
-                       DNI: <input type="text" name="dni" placeholder="DNI" required value="<?= $dni ?>">
-                       Fecha de nacimiento: <input type="date" name="fecha_nacimiento" required value="<?= $fecha_nacimiento ?>">
-                       Dirección: <input type="text" name="direccion" placeholder="Dirección" value="<?= $direccion ?>">
+                        Nombre: <input type="text" name="nombre" required value="<?= $nombre ?>">
+                        Apellidos: <input type="text" name="apellidos" required
+                            value="<?= $apellidos ?>">
+                        Email: <input type="email" name="email" required value="<?= $email ?>">
+                        Teléfono: <input type="text" name="telefono" pattern="[0-9]{9}" required value="<?= $telefono ?>">
+                        DNI: <input type="text" name="dni" pattern="[0-9]{8}[A-Z]|[XYZ][0-9]{7}[A-Z]" required value="<?= $dni ?>">
+                        Fecha de nacimiento: <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" required
+                            value="<?= $fecha_nacimiento ?>" onchange="mostrarTutor()">
+                        Dirección: <input type="text" name="direccion" placeholder="Dirección" required
+                            value="<?= $direccion ?>">
+                    </fieldset>
+
+                    <!-- Campos de tutor legal (se muestran si es menor) -->
+                    <fieldset id="campos-tutor" style="display:none;">
+                        <legend>Datos del tutor/a legal</legend>
+
+                        Nombre tutor/a: <input type="text" name="tutor_nombre" value="<?= $tutor_nombre ?>">
+                        DNI tutor/a: <input type="text" name="tutor_dni" pattern="[0-9]{8}[A-Z]|[XYZ][0-9]{7}[A-Z]" value="<?= $tutor_dni ?>">
+                        Email tutor/a: <input type="email" name="tutor_email" value="<?= $tutor_email ?>">
+                        Teléfono tutor/a: <input type="text" name="tutor_telefono" pattern="[0-9]{9}" value="<?= $tutor_telefono ?>">
+
+                        <label>
+                            <input type="checkbox" name="consentimiento" <?= $consentimiento ? 'checked' : '' ?>>
+                            Autorizo como padre/madre/tutor legal el acceso a esta escuela de música
+                        </label>
                     </fieldset>
 
                     <fieldset>
@@ -170,13 +219,13 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
                             <option value="">Seleccione curso</option>
 
                             <?php while ($curso = $cursos->fetch_assoc()) { ?>
-                                <option value="<?= $curso['id_curso'] ?>" <?php if ($id_curso == $curso['id_curso']) echo "selected" ?>>
+                                <option value="<?= $curso['id_curso'] ?>" <?php if ($id_curso == $curso['id_curso'])
+                                      echo "selected" ?>>
                                     <?= $curso['nombre'] ?>
                                 </option>
                             <?php } ?>
 
                         </select>
-
 
                         <div id="asignaturas">
 
@@ -186,7 +235,8 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
                             <option value="">Seleccione instrumento</option>
 
                             <?php while ($i = $instrumentos->fetch_assoc()) { ?>
-                                <option value="<?= $i['id_instrumento'] ?>" <?php if ($id_instrumento == $i['id_instrumento']) echo "selected" ?>>
+                                <option value="<?= $i['id_instrumento'] ?>" <?php if ($id_instrumento == $i['id_instrumento'])
+                                      echo "selected" ?>>
                                     <?= $i['nombre'] ?>
                                 </option>
                             <?php } ?>
@@ -198,7 +248,7 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
 
                     <textarea name="observaciones"><?= $observaciones ?></textarea><br>
 
-                    <button type="submit" name="prematricular"> Enviar solicitud </button>
+                    <button type="submit" name="prematricular">Enviar solicitud</button>
                 </fieldset>
             </form>
 
@@ -209,8 +259,31 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
 </main>
 
 <script>
-    document.getElementById('id_curso').addEventListener('change', function() {
+    // Mostrar/ocultar campos de tutor según edad
+    function mostrarTutor() {
+        const fecha = document.getElementById('fecha_nacimiento').value;
+        if (!fecha) {
+            return;
+        }
 
+        const hoy = new Date();
+        const nacimiento = new Date(fecha);
+
+        let edad = hoy.getFullYear() - nacimiento.getFullYear();
+        const mes = hoy.getMonth() - nacimiento.getMonth();
+
+        if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+            edad--;
+        }
+
+        if (edad < 18) {
+            document.getElementById('campos-tutor').style.display = 'block';
+        }
+    }
+
+
+    // Cargar asignaturas al cambiar curso
+    document.getElementById('id_curso').addEventListener('change', function () {
         let idCurso = this.value;
 
         if (!idCurso) {
@@ -226,9 +299,12 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
             .catch(error => {
                 document.getElementById('asignaturas').innerHTML = "Error cargando asignaturas";
             });
-
     });
+
+    // Mostrar tutor al cargar si ya hay fecha
+    window.addEventListener('load', mostrarTutor);
 </script>
+
 <?php
 include "plantillas/footer.php";
 desconectar($conexion);
