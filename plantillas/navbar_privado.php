@@ -24,6 +24,7 @@ $nombre = $_SESSION['nombre'];
             'cursos.php' => 'Cursos',
             'prematriculas.php' => 'Prematrículas',
             'matriculas.php' => 'Matrículas',
+            'aprobar_prematricula.php' => 'Aprobar prematrícula',
             'pagos.php' => 'Pagos',
             'eventos.php' => 'Eventos',
             'anuncios.php' => 'Anuncios',
