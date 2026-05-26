@@ -131,15 +131,12 @@ if (isset($_POST['aprobar'])) {
         }
     }
 
-    // Verificar que el alumno no tenga ya una matrícula activa en este curso
-    if (empty($mensaje_error)) {
-        $verificar = $conexion->query("SELECT id_matricula FROM matriculas WHERE id_alumno=$id_alumno AND id_curso=$id_curso AND estado='activa'");
-        if ($verificar === false) {
-            $mensaje_error = "Error al comprobar matrícula activa: " . $conexion->error;
-        } elseif ($verificar->num_rows > 0) {
-            $mensaje_error = "El alumno ya tiene una matrícula activa para este curso.";
-        }
+    // Verificar que el alumno no tiene otra matrícula activa
+    $alumno_activa = $conexion->query("SELECT id FROM matriculas WHERE id_alumno = $id_alumno AND estado = 'activa'");
+    if ($alumno_activa->num_rows > 0) {
+        $mensaje_error = "El alumno ya tiene una matrícula activa";
     }
+
 
     // Si todo es correcto, crear matrícula, pago y prematrícula 'aprobada'
     if (empty($mensaje_error)) {

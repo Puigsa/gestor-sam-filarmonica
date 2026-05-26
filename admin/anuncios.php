@@ -25,7 +25,6 @@ if(isset($_GET['eliminar'])) {
         $mensaje = "<p class='mensaje-error'>Error al eliminar el anuncio</p>" . $conexion->error;
     }
 }
-desconectar($conexion);
 
 include "../plantillas/header_privado.php";
 include "../plantillas/navbar_privado.php";
@@ -70,4 +69,9 @@ include "../plantillas/navbar_privado.php";
     </table>
 </main>
 
-<?php include "../plantillas/footer_privado.php"; ?>
+<?php 
+desconectar($conexion);
+
+include "../plantillas/footer_privado.php"; 
+
+?>

@@ -31,6 +31,17 @@ if (isset($_POST['editar'])) {
     $estado = $_POST['estado'];
     $observaciones = trim($_POST['observaciones']);
 
+    // Verificar que el alumno no tiene otra matrícula activa
+    if ($estado == 'activa' && $datos['estado'] != 'activa') {
+    $alumno_activa = $conexion->query("SELECT id FROM matriculas WHERE id_alumno = {$datos['id_alumno']} AND estado = 'activa' AND id_matricula != $id");
+    if ($alumno_activa->num_rows > 0) {
+        $_SESSION['mensaje_error'] = "El alumno ya tiene una matrícula activa";
+        desconectar($conexion);
+        header("Location: matriculas.php");
+        exit;
+    }
+}
+
     $sql = "UPDATE matriculas SET id_curso=$id_curso, id_instrumento=$id_instrumento, estado='$estado', observaciones='$observaciones' WHERE id_matricula=$id";
 
     if ($conexion->query($sql)) {
