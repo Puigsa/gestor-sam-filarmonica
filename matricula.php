@@ -69,30 +69,30 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
     if (empty($nombre) || empty($apellidos) || empty($email) ||
         empty($telefono) || empty($dni) || empty($fecha_nacimiento) ||
         empty($id_curso) || empty($direccion)) {
-        $error = "Debe rellenar todos los campos obligatorios.";
+        $error = "<p class='mensaje_error'>Debe rellenar todos los campos obligatorios.</p>";
     } else if (!validarEmail($email)) {
-        $error = "Email inválido";
+        $error = "<p class='mensaje_error'>Email inválido</p>";
     } else if (!validarDNI($dni)) {
-        $error = "DNI/NIE inválido";
+        $error = "<p class='mensaje_error'>DNI/NIE inválido</p>";
     } else if (!validarTelefono($telefono)) {
-        $error = "Teléfono inválido (9 dígitos)";
+        $error = "<p class='mensaje_error'>Teléfono inválido (9 dígitos)</p>";
     } else if ($edad < 0) {
-        $error = "Fecha de nacimiento inválida";
+        $error = "<p class='mensaje_error'>Fecha de nacimiento inválida</p>";
     }else if ($edad < 18 && !$consentimiento) {
-        $error = "Para menores de edad, debe dar consentimiento.";
+        $error = "<p class='mensaje_error'>Para menores de edad, debe dar consentimiento.</p>";
     }else if ($edad < 18 && !validarDNI($tutor_dni)) {
-        $error = "DNI/NIE del tutor inválido";
+        $error = "<p class='mensaje_error'>DNI/NIE del tutor inválido</p>";
     } else if ($edad < 18 && !validarEmail($tutor_email)) {
-        $error = "Email del tutor inválido";
+        $error = "<p class='mensaje_error'>Email del tutor inválido</p>";
     } else if ($edad < 18 && !validarTelefono($tutor_telefono)) {
-        $error = "Teléfono del tutor inválido (9 dígitos)";
+        $error = "<p class='mensaje_error'>Teléfono del tutor inválido (9 dígitos)</p>";
     
     } else {
 
         // Si es menor, validar datos de tutor
         if ($edad < 18) {
             if (empty($tutor_nombre) || empty($tutor_dni) || empty($tutor_email) || empty($tutor_telefono) || !$consentimiento) {
-                $error = "Para menores de edad, debe rellenar los datos del tutor legal y dar consentimiento.";
+                $error = "<p class='mensaje_error'>Para menores de edad, debe rellenar los datos del tutor legal y dar consentimiento.</p>";
             }
         }
 
@@ -100,7 +100,7 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
             $comprobar = $conexion->query("SELECT id_prematricula FROM prematriculas WHERE dni='$dni' AND id_curso='$id_curso'");
 
             if ($comprobar->num_rows > 0) {
-                $error = "Ya existe una solicitud de prematrícula para este curso con ese DNI.";
+                $error = "<p class='mensaje_error'>Ya existe una solicitud de prematrícula para este curso con ese DNI.</p>";
             } else {
                 $insert = "INSERT INTO prematriculas
                         (nombre, apellidos, email, telefono, dni, fecha_nacimiento, id_curso, id_instrumento, 
@@ -110,7 +110,7 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
                           '$observaciones', 'pendiente', '$direccion', '$tutor_nombre', '$tutor_dni', '$tutor_email', '$tutor_telefono', $consentimiento, CURDATE())";
 
                 if ($conexion->query($insert)) {
-                    $exito = "Solicitud enviada correctamente. Nos pondremos en contacto con usted.";
+                    $exito = "<p class='mensaje_exito'>Solicitud enviada correctamente. Nos pondremos en contacto con usted.</p>";
 
                     $nombre = "";
                     $apellidos = "";
@@ -128,7 +128,7 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
                     $tutor_telefono = "";
                     $consentimiento = "";
                 } else {
-                    $error = "Error al enviar la solicitud." . $conexion->error;
+                    $error = "<p class='mensaje_error'>Error al enviar la solicitud." . $conexion->error . "</p>";
                 }
             }
         }
@@ -270,7 +270,7 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
             </form>
 
         <?php } else { ?>
-            <p><strong>El plazo de prematrícula no está disponible en este momento.</strong></p>
+            <p class="mensaje_error"><strong>El plazo de prematrícula no está disponible en este momento.</strong></p>
         <?php } ?>
     </section>
 </main>
@@ -295,6 +295,8 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
 
         if (edad < 18) {
             document.getElementById('campos-tutor').style.display = 'block';
+        }else {
+            document.getElementById('campos-tutor').style.display = 'none';
         }
     }
 

@@ -7,7 +7,7 @@ comprobarRol('admin');
 
 $conexion = conectar();
 $mensaje = "";
-$id = $_GET['id'] ?? null;
+$id = (int)($_GET['id'] ?? 0);
 
 if (!$id) {
     header("Location: usuarios.php");
@@ -59,13 +59,13 @@ include "../plantillas/navbar_privado.php";
     <h1>Editar usuario</h1>
     
     <form method="POST" class="formulario-usuario">
-        <input type="text" name="nombre" value="<?= $datos['nombre'] ?>" required>
-        <input type="text" name="apellidos" value="<?= $datos['apellidos'] ?>" required>
-        <input type="email" name="email" value="<?= $datos['email'] ?>" required>
-        <input type="tel" name="telefono" value="<?= $datos['telefono'] ?>">
-        <input type="text" name="dni" value="<?= $datos['dni'] ?>">
-        <input type="date" name="fecha_nacimiento" value="<?= $datos['fecha_nacimiento'] ?>">
-        <input type="text" name="direccion" value="<?= $datos['direccion'] ?>">
+        Nombre: <input type="text" name="nombre" value="<?= $datos['nombre'] ?>" required>
+        Apellidos: <input type="text" name="apellidos" value="<?= $datos['apellidos'] ?>" required>
+        Email: <input type="email" name="email" value="<?= $datos['email'] ?>" required>
+        Teléfono: <input type="tel" name="telefono" value="<?= $datos['telefono'] ?>">
+        DNI: <input type="text" name="dni" value="<?= $datos['dni'] ?>">
+        Fecha de nacimiento: <input type="date" name="fecha_nacimiento" value="<?= $datos['fecha_nacimiento'] ?>">
+        Dirección: <input type="text" name="direccion" value="<?= $datos['direccion'] ?>">
         
         <select name="rol" required>
             <option value="admin" <?= $datos['rol'] == 'admin' ? 'selected' : '' ?>>Admin</option>

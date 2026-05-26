@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require_once "../includes/config.php";
 require_once "../includes/funciones.php";
 
@@ -24,7 +26,14 @@ desconectar($conexion);
 
 include "../plantillas/header_privado.php";
 include "../plantillas/navbar_privado.php";
+
+if (isset($_SESSION['mensaje_exito'])) {
+    echo "<p class='mensaje_exito'>" . $_SESSION['mensaje_exito'] . "</p>";
+    unset($_SESSION['mensaje_exito']);
+}
 ?>
+
+
 
 <main class="main">
     <h1>Gestión de Matrículas</h1>
@@ -105,7 +114,6 @@ include "../plantillas/navbar_privado.php";
                             <td><?= ucfirst($mat['estado']) ?></td>
                             <td>
                                 <a href="editar_matricula.php?id=<?= $mat['id_matricula'] ?>" class="btn-editar">Editar</a>
-                                <a href="eliminar_matricula.php?id=<?= $mat['id_matricula'] ?>" class="btn-eliminar" onclick="return confirm('¿Estás seguro?')">Eliminar</a>
                             </td>
                         </tr>
                     <?php } ?>

@@ -7,7 +7,7 @@ comprobarRol('admin');
 
 $conexion = conectar();
 $mensaje = "";
-$id = $_GET['id'] ?? null;
+$id = (int)($_GET['id'] ?? 0);
 
 if (!$id) {
     header("Location: eventos.php");

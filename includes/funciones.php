@@ -74,4 +74,20 @@ function validarEmail($email) {
 function validarTelefono($telefono) {
     return preg_match('/^[0-9]{9}$/', $telefono);
 }
-?>
+
+
+// Paginación
+function paginar($query, $por_pagina = 10) {
+    $pagina = (int)($_GET['pagina'] ?? 1);
+    $offset = ($pagina - 1) * $por_pagina;
+   
+    $resultado = $query->fetch_all();
+    $total = count($resultado);
+    $total_paginas = ceil($total / $por_pagina);
+   
+    return [
+        'datos' => array_slice($resultado, $offset, $por_pagina),
+        'pagina' => $pagina,
+        'total_paginas' => $total_paginas
+    ];
+}

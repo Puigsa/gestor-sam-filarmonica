@@ -2,23 +2,19 @@
 require_once "../includes/config.php";
 
 $conexion = conectar();
+$id_curso = (int)$_GET['id_curso'];
 
-if (isset($_GET['id_curso']) && !empty($_GET['id_curso'])) {
-    $id_curso = $_GET['id_curso'];
-    $consulta = "SELECT asignaturas.nombre FROM curso_asignatura 
-            INNER JOIN asignaturas ON curso_asignatura.id_asignatura = asignaturas.id_asignatura 
-            WHERE curso_asignatura.id_curso = $id_curso
-            ORDER BY asignaturas.id_asignatura ASC";
+$asignaturas = $conexion->query("SELECT id_asignatura, nombre FROM asignaturas WHERE id_curso=$id_curso ");
 
-    $resultado = $conexion->query($consulta);
-
-    if ($resultado->num_rows > 0){
-        echo "<h3>Asignaturas incluidas: </h3><ul>";
-        while ($fila = $resultado->fetch_assoc()) {
-            echo "<li>" . $fila['nombre'] . "</li>";
-        }
-        echo "</ul>";
+if($asignaturas->num_rows == 0) {
+    echo "<option value=''>No hay asignaturas</option>";
+} else {
+    echo "<h4>Asignaturas del curso</h4>";
+    echo "<ul>";
+    while ($asignatura = $asignaturas->fetch_assoc()) {
+        echo "<li>" . $asignatura['nombre'] . "</li>";
     }
+    echo "</ul>";
 }
 
 desconectar($conexion);

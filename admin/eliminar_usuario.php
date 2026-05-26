@@ -5,7 +5,7 @@ require_once "../includes/funciones.php";
 comprobarAcceso();
 comprobarRol('admin');
 
-$id = $_GET['id'] ?? null;
+$id = (int)($_GET['id'] ?? 0);
 
 if (!$id) {
     header("Location: usuarios.php");

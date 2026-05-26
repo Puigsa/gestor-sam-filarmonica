@@ -14,7 +14,7 @@ $nombre = $_SESSION['nombre'];
         <span></span>
         <span></span>
     </div>
-    
+
     <div class="breadcrumb">
         <?php
         $pagina_actual = basename($_SERVER['PHP_SELF']);
@@ -50,7 +50,7 @@ $nombre = $_SESSION['nombre'];
     <div class="sidebar-logo">
         <img src="../estaticos/img/cecilio.png " alt="Logo">
     </div>
-    
+
     <nav class="sidebar-menu">
         <?php if ($rol === 'admin') { ?>
             <a href="index.php" class="menu-item">Dashboard</a>
@@ -58,17 +58,19 @@ $nombre = $_SESSION['nombre'];
             <a href="cursos.php" class="menu-item">Cursos</a>
             <a href="matriculas.php" class="menu-item">Matrículas</a>
             <a href="pagos.php" class="menu-item">Pagos</a>
+            <a href="anuncios.php" class="menu-item">Anuncios</a>
+
             <a href="eventos.php" class="menu-item">Eventos</a>
-        
+
         <?php } else if ($rol === 'profesor') { ?>
             <a href="index.php" class="menu-item">Dashboard</a>
-            <a href="cursos.php" class="menu-item">Mis cursos</a>
+            <a href="asignaturas.php" class="menu-item">Asignaturas</a>
             <a href="anuncios.php" class="menu-item">Anuncios</a>
             <a href="recursos.php" class="menu-item">Recursos</a>
-        
-       <?php } else if ($rol === 'alumno') { ?>
+
+        <?php } else if ($rol === 'alumno') { ?>
             <a href="index.php" class="menu-item">Dashboard</a>
-            <a href="cursos.php" class="menu-item">Mis cursos</a>
+            <a href="asignaturas.php" class="menu-item">Asignaturas</a>
             <a href="anuncios.php" class="menu-item">Anuncios</a>
             <a href="recursos.php" class="menu-item">Recursos</a>
         <?php } ?>
@@ -76,32 +78,32 @@ $nombre = $_SESSION['nombre'];
 </aside>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const sidebarToggle = document.getElementById("sidebarToggle");
-    const sidebar = document.getElementById("sidebar");
-    const overlay = document.getElementById("sidebarOverlay");
-    const links = document.querySelectorAll(".sidebar-menu a");
+    document.addEventListener("DOMContentLoaded", () => {
+        const sidebarToggle = document.getElementById("sidebarToggle");
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebarOverlay");
+        const links = document.querySelectorAll(".sidebar-menu a");
 
-    if (!sidebarToggle || !sidebar || !overlay) return;
+        if (!sidebarToggle || !sidebar || !overlay) return;
 
-    function openSidebar() {
-        sidebar.classList.add("active");
-        sidebarToggle.classList.add("active");
-        overlay.classList.add("active");
-    }
+        function openSidebar() {
+            sidebar.classList.add("active");
+            sidebarToggle.classList.add("active");
+            overlay.classList.add("active");
+        }
 
-    function closeSidebar() {
-        sidebar.classList.remove("active");
-        sidebarToggle.classList.remove("active");
-        overlay.classList.remove("active");
-    }
+        function closeSidebar() {
+            sidebar.classList.remove("active");
+            sidebarToggle.classList.remove("active");
+            overlay.classList.remove("active");
+        }
 
-    sidebarToggle.addEventListener("click", () => {
-        sidebar.classList.contains("active") ? closeSidebar() : openSidebar();
+        sidebarToggle.addEventListener("click", () => {
+            sidebar.classList.contains("active") ? closeSidebar() : openSidebar();
+        });
+
+        overlay.addEventListener("click", closeSidebar);
+
+        links.forEach((link) => link.addEventListener("click", closeSidebar));
     });
-
-    overlay.addEventListener("click", closeSidebar);
-    
-    links.forEach((link) => link.addEventListener("click", closeSidebar));
-});
 </script>

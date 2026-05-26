@@ -13,7 +13,7 @@ $total_cursos = $conexion->query("SELECT COUNT(*) as total FROM cursos")->fetch_
 $total_matriculas = $conexion->query("SELECT COUNT(*) as total FROM matriculas WHERE estado='activa'")->fetch_assoc()['total'];
 $pagos_pendientes = $conexion->query("SELECT COUNT(*) as total FROM pagos WHERE estado='pendiente'")->fetch_assoc()['total'];
 $proximos_eventos = $conexion->query("SELECT COUNT(*) as total FROM eventos WHERE fecha >= CURDATE() AND publicado=1")->fetch_assoc()['total'];
-
+$total_anuncios = $conexion->query("SELECT COUNT(*) as total FROM anuncios")->fetch_assoc()['total'];
 desconectar($conexion);
 
 include "../plantillas/header_privado.php";
@@ -47,7 +47,12 @@ include "../plantillas/navbar_privado.php";
             <p class="numero"><?= $pagos_pendientes ?></p>
             <a href="pagos.php">Ver más</a>
         </div>
-        
+        <div class="dashboard-card">
+            <h3>Anuncios</h3>
+            <p class="numero"><?= $total_anuncios ?></p>
+            <a href="anuncios.php">Ver más</a>
+        </div>
+
         <div class="dashboard-card">
             <h3>Próximos eventos</h3>
             <p class="numero"><?= $proximos_eventos ?></p>

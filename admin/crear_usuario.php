@@ -50,14 +50,14 @@ include "../plantillas/navbar_privado.php";
     <h1>Crear usuario</h1>
     
     <form method="POST" class="formulario-usuario">
-        <input type="text" name="nombre" placeholder="Nombre" required>
-        <input type="text" name="apellidos" placeholder="Apellidos" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Contraseña" required>
-        <input type="tel" name="telefono" placeholder="Teléfono">
-        <input type="text" name="dni" placeholder="DNI">
-        <input type="date" name="fecha_nacimiento">
-        <input type="text" name="direccion" placeholder="Dirección">
+        Nombre: <input type="text" name="nombre" required>
+        Apellidos: <input type="text" name="apellidos" required>
+        Email: <input type="email" name="email" required>
+        Contraseña: <input type="password" name="password" required>
+        Teléfono: <input type="tel" name="telefono" required>
+        DNI: <input type="text" name="dni" required>
+        Fecha de nacimiento: <input type="date" name="fecha_nacimiento" required>
+        Dirección: <input type="text" name="direccion">
         
         <select name="rol" required>
             <option value="">Selecciona un rol</option>

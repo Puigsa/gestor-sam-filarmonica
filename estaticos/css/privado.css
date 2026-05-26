@@ -112,11 +112,7 @@ body {
 
 
 /* ========================= TABLAS ========================= */
-.tabla-usuarios,
-.tabla-cursos,
-.tabla-matriculas,
-.tabla-pagos,
-.tabla-eventos {
+table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 1.5rem;
@@ -140,10 +136,21 @@ table th {
 table td {
     padding: 0.8rem 1rem;
     border-bottom: 1px solid #eee;
+    max-height: 200px;
 }
 
 table tbody tr:hover {
     background: #f5f5f5;
+}
+table .titulo{
+    width:25%;
+}
+
+table .contenido{
+    max-width:350px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
 /* ========================= BOTONES ========================= */
@@ -223,6 +230,10 @@ form{
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.filtro{
+    width: 20%;
+}
+
 form input,
 form select,
 form textarea {
@@ -255,10 +266,31 @@ form button:hover {
     background: #5e0018;
 }
 
-.mensaje {
-    padding: 1rem;
-    border-radius: 6px;
-    margin-top: 1rem;
+.filtro{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.filtro select{
+    padding:8px;
+}
+
+
+/* ========================= MENSAJES ========================= */
+
+.mensaje_error {
+    color: red;
+    background-color: #ffd6d6;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.mensaje_exito {
+    color: green;
+    background-color: #d6ffd6;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 
@@ -267,7 +299,7 @@ form button:hover {
 /* ========================= DASHBOARD ========================= */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
     margin-top: 2rem;
 }
@@ -311,3 +343,34 @@ form button:hover {
     background: #1a2f47;
 }
 
+/* ========================= ACORDEÓN ========================= */
+#accordion {
+    margin-top: 2rem;
+    width: 600px;
+}
+#accordion h3{
+    padding:15px;
+    border-radius:10px;
+    color:white;
+    background:#800020;
+    margin-top:10px;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.acordeon-body{
+    padding: 1.5em;;
+    border:1px solid #ddd;
+    border-top:none;
+    border-radius:0 0 10px 10px;
+    background:white;
+}
+
+.acordeon-body p{
+    margin-bottom:1 rem;
+    line-height:1.5;
+}
+
+.acordeon-body strong{
+    color:#444;
+}

@@ -1,12 +1,12 @@
 <?php
+session_start();
 require_once "../includes/config.php";
 require_once "../includes/funciones.php";
-
 comprobarAcceso();
 comprobarRol('admin');
 
 $conexion = conectar();
-$id = $_GET['id'] ?? null;
+$id = (int)($_GET['id'] ?? 0);
 
 // Verificar que existe el ID en la URL
 if (!$id) {
@@ -22,78 +22,125 @@ if ($prematricula->num_rows == 0) {
 }
 
 $datos = $prematricula->fetch_assoc();
-$mensaje = "";
+$mensaje_error = "";
+$mensaje_exito = "";
 
 if (isset($_POST['aprobar'])) {
-    $nombre = trim($_POST['nombre']) ?? '';
-    $apellidos = trim($_POST['apellidos']) ?? '';
-    $email = trim($_POST['email']) ?? '';
-    $telefono = trim($_POST['telefono']) ?? '';
-    $dni = trim($_POST['dni']) ?? '';
-    $fecha_nacimiento = $_POST['fecha_nacimiento'] ?? '';
-    $direccion = trim($_POST['direccion']) ?? '';
-    $id_curso = $_POST['id_curso'] ?? '';
-    $id_instrumento = $_POST['id_instrumento'] ?? '';
-    $consentimiento = $_POST['tutor_consentimiento'] ?? 0;
+    $nombre = trim($_POST['nombre'] ?? '');
+    $apellidos = trim($_POST['apellidos'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $telefono = trim($_POST['telefono'] ?? '');
+    $dni = trim($_POST['dni'] ?? '');
+    $fecha_nacimiento = trim($_POST['fecha_nacimiento'] ?? '');
+    $direccion = trim($_POST['direccion'] ?? '');
+    $id_curso = (int)($_POST['id_curso'] ?? 0);
+    $id_instrumento = (int)($_POST['id_instrumento'] ?? 0);
+    $consentimiento = isset($_POST['tutor_consentimiento']) && $_POST['tutor_consentimiento'] === '1' ? 1 : 0;
     $tutor_nombre = trim($_POST['tutor_nombre'] ?? '');
     $tutor_dni = trim($_POST['tutor_dni'] ?? '');
     $tutor_email = trim($_POST['tutor_email'] ?? '');
     $tutor_telefono = trim($_POST['tutor_telefono'] ?? '');
 
-    if (empty($nombre) || empty($apellidos) || empty($email) || empty($dni) || empty($direccion)) {
+    if (empty($nombre) || empty($apellidos) || empty($email) || empty($dni) || empty($direccion) || empty($fecha_nacimiento) || $id_curso <= 0 || $id_instrumento <= 0) {
         $mensaje = "Rellena todos los campos obligatorios";
+    } elseif (!validarEmail($email)) {
+        $mensaje = "Email inválido";
+    } elseif (!validarDNI($dni)) {
+        $mensaje = "DNI/NIE inválido";
+    } elseif (!empty($telefono) && !validarTelefono($telefono)) {
+        $mensaje = "Teléfono inválido (9 dígitos)";
     } else {
-        // Verificar si DNI ya existe
-        $existe_dni = $conexion->query("SELECT id_usuario FROM usuarios WHERE dni='$dni'");
+        $fecha_valida = DateTime::createFromFormat('Y-m-d', $fecha_nacimiento);
+        if (!$fecha_valida) {
+            $mensaje = "Fecha de nacimiento inválida";
+        } else {
+            $hoy = new DateTime();
+            $edad = $hoy->diff($fecha_valida)->y;
 
-        if ($existe_dni->num_rows > 0) {
-            $id_alumno = $existe_dni->fetch_assoc()['id_usuario'];
+            if ($edad < 0) {
+                $mensaje = "Fecha de nacimiento inválida";
+            } elseif ($edad < 18) {
+                if (empty($tutor_nombre) || empty($tutor_dni) || empty($tutor_email) || empty($tutor_telefono) || !$consentimiento) {
+                    $mensaje_error = "Para menores de edad, debe rellenar los datos del tutor legal y dar consentimiento.";
+                } elseif (!validarDNI($tutor_dni)) {
+                    $mensaje_error = "DNI/NIE del tutor inválido";
+                } elseif (!validarEmail($tutor_email)) {
+                    $mensaje_error = "Email del tutor inválido";
+                } elseif (!validarTelefono($tutor_telefono)) {
+                    $mensaje_error = "Teléfono del tutor inválido (9 dígitos)";
+                }
+            }
+        }
+    }
+
+    if (empty($mensaje)) {
+        $existe = $conexion->query("SELECT id_usuario FROM usuarios WHERE email='$email' OR dni='$dni'");
+        if ($existe === false) {
+            $mensaje_error = "Error al comprobar usuario: " . $conexion->error;
+        } elseif ($existe->num_rows > 0) {
+            $id_alumno = $existe->fetch_assoc()['id_usuario'];
+            $sql_update = "UPDATE usuarios
+                   SET nombre='$nombre',
+                       apellidos='$apellidos',
+                       email='$email',
+                       telefono='$telefono',
+                       fecha_nacimiento='$fecha_nacimiento',
+                       direccion='$direccion'
+                   WHERE id_usuario=$id_alumno";
+            if (!$conexion->query($sql_update)) {
+                $mensaje_error = "Error al actualizar usuario: " . $conexion->error;
+            }
         } else {
             $password = password_hash($dni, PASSWORD_DEFAULT);
-            $sql_usuario = "INSERT INTO usuarios (nombre, apellidos, email, password, telefono, dni, fecha_nacimiento, direccion, rol) 
+            $sql_usuario = "INSERT INTO usuarios (nombre, apellidos, email, password, telefono, dni, fecha_nacimiento, direccion, rol)
                             VALUES ('$nombre', '$apellidos', '$email', '$password', '$telefono', '$dni', '$fecha_nacimiento', '$direccion', 'alumno')";
-
             if ($conexion->query($sql_usuario)) {
                 $id_alumno = $conexion->insert_id;
             } else {
-                $mensaje = "Error al crear usuario" . $conexion->error;
-                desconectar($conexion);
-                include "../plantillas/header_privado.php";
-                include "../plantillas/navbar_privado.php";
-?>
-                <main class="main">
-                    <h1>Aprobar prematrícula</h1>
-                    <p class="mensaje"><?= $mensaje ?></p>
-                </main>
-<?php
-                include "../plantillas/footer_privado.php";
-                exit;
+                $mensaje_error = "Error al crear usuario: " . $conexion->error;
             }
         }
+    }
 
-        // Crear matrícula
+    if (empty($mensaje_error)) {
+        $verificar = $conexion->query("SELECT id_matricula FROM matriculas WHERE id_alumno=$id_alumno AND id_curso=$id_curso AND estado='activa'");
+        if ($verificar === false) {
+            $mensaje_error = "Error al comprobar matrícula activa: " . $conexion->error;
+        } elseif ($verificar->num_rows > 0) {
+            $mensaje_error = "El alumno ya tiene una matrícula activa para este curso.";
+        }
+    }
+
+    if (empty($mensaje_error)) {
         $sql_matricula = "INSERT INTO matriculas (id_alumno, id_curso, id_instrumento, fecha_matricula, estado, 
                             tutor_nombre, tutor_dni, tutor_email, tutor_telefono, tutor_consentimiento) 
                           VALUES ($id_alumno, $id_curso, $id_instrumento, NOW(), 'activa', 
                                 '$tutor_nombre', '$tutor_dni', '$tutor_email', '$tutor_telefono', $consentimiento)";
+        $precio_result = $conexion->query("SELECT precio FROM cursos WHERE id_curso=$id_curso");
+        if ($precio_result && $precio_result->num_rows > 0) {
+            $precio = $precio_result->fetch_assoc()['precio'] ?? 0;
 
-        if ($conexion->query($sql_matricula)) {
-            $id_matricula = $conexion->insert_id;
+            if ($conexion->query($sql_matricula)) {
+                $id_matricula = $conexion->insert_id;
+                $sql_pago = "INSERT INTO pagos (id_alumno, id_matricula, importe, estado) 
+                             VALUES ($id_alumno, $id_matricula, $precio, 'pendiente')";
 
-            // Crear pago
-            $precio = $conexion->query("SELECT precio FROM cursos WHERE id=$id_curso")->fetch_assoc()['precio'];
-            $sql_pago = "INSERT INTO pagos (id_alumno, id_matricula, importe, estado) 
-                         VALUES ($id_alumno, $id_matricula, $precio, 'pendiente')";
-            $conexion->query($sql_pago);
+                $conexion->query($sql_pago);
+                $conexion->query("UPDATE prematriculas SET estado='aprobada' WHERE id_prematricula=$id");
+                desconectar($conexion);
 
-            // Actualizar prematrícula
-            $conexion->query("UPDATE prematriculas SET estado='aprobada' WHERE id_prematricula=$id");
-
-            desconectar($conexion);
-            header("Location: matriculas.php");
-            exit;
+                if ($existe->num_rows > 0) {
+                    $_SESSION['mensaje_exito'] = "Usuario actualizado y matrícula creada correctamente.";
+                } else {
+                    $_SESSION['mensaje_exito'] = "Usuario creado y matrícula creada correctamente.";
+                }
+                header("Location: matriculas.php");
+                exit;
+            } else {
+                $mensaje_error = "No se encontró el precio del curso.";
+            }
         } else {
-            $mensaje = "Error al crear matrícula";
+            $mensaje_error = "Error al crear matrícula: " . $conexion->error;
         }
     }
 }
@@ -109,58 +156,63 @@ include "../plantillas/navbar_privado.php";
 <main class="main">
     <h1>Aprobar prematrícula</h1>
 
+    <?php if (!empty($mensaje_error)) { ?>
+        <p class="mensaje_error"><?= $mensaje_error ?></p>
+    <?php } ?>
+
     <form method="POST">
         <fieldset style="border:none">
             <h3>Datos personales</h3>
-            Nombre: <input type="text" name="nombre" value="<?= $datos['nombre'] ?>" required>
-            Apellidos: <input type="text" name="apellidos" value="<?= $datos['apellidos'] ?>" required>
-            Email: <input type="email" name="email" value="<?= $datos['email'] ?>" required>
-            Teléfono: <input type="tel" name="telefono" value="<?= $datos['telefono'] ?>">
-            DNI: <input type="text" name="dni" value="<?= $datos['dni'] ?>" required>
-            Fecha de nacimiento: <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" value="<?= $datos['fecha_nacimiento'] ?>" onchange="validarFecha()">
-            Dirección: <input type="text" name="direccion" value="<?= $datos['direccion'] ?>" placeholder="Dirección" required>
+            Nombre: <input type="text" name="nombre" value="<?= isset($_POST['nombre']) ? $_POST['nombre'] : $datos['nombre'] ?>" required>
+            Apellidos: <input type="text" name="apellidos" value="<?= isset($_POST['apellidos']) ? $_POST['apellidos'] : $datos['apellidos'] ?>" required>
+            Email: <input type="email" name="email" value="<?= isset($_POST['email']) ? $_POST['email'] : $datos['email'] ?>" required>
+            Teléfono: <input type="tel" name="telefono" value="<?= isset($_POST['telefono']) ? $_POST['telefono'] : $datos['telefono'] ?>">
+            DNI: <input type="text" name="dni" value="<?= isset($_POST['dni']) ? $_POST['dni'] : $datos['dni'] ?>" required>
+            Fecha de nacimiento: <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" value="<?= isset($_POST['fecha_nacimiento']) ? $_POST['fecha_nacimiento'] : $datos['fecha_nacimiento'] ?>" onchange="validarFecha()">
+            Dirección: <input type="text" name="direccion" value="<?= isset($_POST['direccion']) ? $_POST['direccion'] : $datos['direccion'] ?>" required>
         </fieldset>
 
         <fieldset id="campos-tutor" style="display: none; border:none;">
             <h3>Datos del tutor/a legal</h3>
-            Nombre tutor/a: <input type="text" name="tutor_nombre" value="<?= $datos['tutor_nombre'] ?>" required>
-            DNI tutor/a: <input type="text" name="tutor_dni" value="<?= $datos['tutor_dni'] ?>" required>
-            Email tutor/a: <input type="email" name="tutor_email" value="<?= $datos['tutor_email'] ?>" required>
-            Teléfono tutor/a: <input type="text" name="tutor_telefono" value="<?= $datos['tutor_telefono'] ?>" required>
+            Nombre tutor/a: <input type="text" name="tutor_nombre" value="<?= isset($_POST['tutor_nombre']) ? $_POST['tutor_nombre'] : $datos['tutor_nombre'] ?>">
+            DNI tutor/a: <input type="text" name="tutor_dni" value="<?= isset($_POST['tutor_dni']) ? $_POST['tutor_dni'] : $datos['tutor_dni'] ?>">
+            Email tutor/a: <input type="email" name="tutor_email" value="<?= isset($_POST['tutor_email']) ? $_POST['tutor_email'] : $datos['tutor_email'] ?>">
+            Teléfono tutor/a: <input type="text" name="tutor_telefono" value="<?= isset($_POST['tutor_telefono']) ? $_POST['tutor_telefono'] : $datos['tutor_telefono'] ?>">
             Consentimiento:
-            <select name="tutor_consentimiento" required>
-                <option value="1" <?= $datos['tutor_consentimiento'] == 1 ? 'selected' : '' ?>>SÍ</option>
-                <option value="0" <?= $datos['tutor_consentimiento'] == 0 ? 'selected' : '' ?>>NO</option>
-            </select>             
+            <select name="tutor_consentimiento">
+                <option value="1" <?= isset($_POST['tutor_consentimiento']) ? ($_POST['tutor_consentimiento'] == 1 ? 'selected' : '') : ($datos['tutor_consentimiento'] == 1 ? 'selected' : '') ?>>SÍ</option>
+                <option value="0" <?= isset($_POST['tutor_consentimiento']) ? ($_POST['tutor_consentimiento'] == 0 ? 'selected' : '') : ($datos['tutor_consentimiento'] == 0 ? 'selected' : '') ?>>NO</option>
+            </select>
         </fieldset>
 
         <fieldset style="border:none">
-        <h3>Datos académicos</h3>
-        <select name="id_curso" required>
-            <option value="">Selecciona curso</option>
-            <?php while ($curso = $cursos->fetch_assoc()) { ?>
-                <option value="<?= $curso['id_curso'] ?>" <?= $curso['id_curso'] == $datos['id_curso'] ? 'selected' : '' ?>>
-                    <?= $curso['nombre'] ?>
-                </option>
-            <?php } ?>
-        </select>
+            <h3>Datos académicos</h3>
+            <select name="id_curso" required>
+                <option value="">Selecciona curso</option>
+                <?php while ($curso = $cursos->fetch_assoc()) { ?>
+                    <option value="<?= $curso['id_curso'] ?>" <?= $curso['id_curso'] == $datos['id_curso'] ? 'selected' : '' ?>>
+                        <?= $curso['nombre'] ?>
+                    </option>
+                <?php } ?>
+            </select>
 
-        <select name="id_instrumento" required>
-            <option value="">Selecciona instrumento</option>
-            <?php while ($inst = $instrumentos->fetch_assoc()) { ?>
-                <option value="<?= $inst['id_instrumento'] ?>" <?= $inst['id_instrumento'] == $datos['id_instrumento'] ? 'selected' : '' ?>>
-                    <?= $inst['nombre'] ?>
-                </option>
-            <?php } ?>
-        </select>
+            <select name="id_instrumento" required>
+                <option value="">Selecciona instrumento</option>
+                <?php while ($inst = $instrumentos->fetch_assoc()) { ?>
+                    <option value="<?= $inst['id_instrumento'] ?>" <?= $inst['id_instrumento'] == $datos['id_instrumento'] ? 'selected' : '' ?>>
+                        <?= $inst['nombre'] ?>
+                    </option>
+                <?php } ?>
+            </select>
         </fieldset>
 
-        <button type="submit" name="aprobar">Aprobar y formalizar matrícula</button>
+        <?php if ($datos['estado'] == 'aprobada') { ?>
+            <button type="submit" name="aprobar" disabled>Ya aprobada</button>
+        <?php } else { ?>
+            <button type="submit" name="aprobar" onclick="return confirm('¿Estás seguro de que deseas aprobar esta prematrícula?')">Aprobar y formalizar matrícula</button>
+        <?php } ?>
     </form>
 
-    <?php if (!empty($mensaje)) { ?>
-        <p class="mensaje"><?= $mensaje ?></p>
-    <?php } ?>
 </main>
 <script>
     function validarFecha() {
@@ -181,6 +233,8 @@ include "../plantillas/navbar_privado.php";
 
         if (edad < 18) {
             document.getElementById('campos-tutor').style.display = 'block';
+        } else {
+            document.getElementById('campos-tutor').style.display = 'none';
         }
     }
 
