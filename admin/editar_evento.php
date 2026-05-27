@@ -35,14 +35,14 @@ if (isset($_POST['editar'])) {
         $mensaje = "Rellena los campos obligatorios";
     } else {
         $sql = "UPDATE eventos SET titulo='$titulo', descripcion='$descripcion', fecha='$fecha', 
-                hora='$hora', lugar='$lugar', publicado=$publicado, cartel='$cartel' WHERE id=$id";
+                hora='$hora', lugar='$lugar', publicado=$publicado, cartel='$cartel' WHERE id_evento=$id";
         
         if ($conexion->query($sql)) {
-            $mensaje = "Evento actualizado correctamente";
+            $_SESSION['mensaje'] = "<p class='mensaje_exito'>Evento actualizado correctamente</p>";
             header("Location: eventos.php");
             exit;
         } else {
-            $mensaje = "Error al actualizar";
+            $mensaje = "<p class='mensaje_error'>Error al actualizar el evento</p>" . $conexion->error;
         }
     }
 }

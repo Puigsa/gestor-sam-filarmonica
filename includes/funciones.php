@@ -99,28 +99,19 @@ function paginar($total_registros, $registros_por_pagina){
     ];
 }
 
-function mostrarPaginacion($pagina_actual, $total_paginas){
+function mostrarPaginacion($pagina_actual, $total_paginas, $params_extra = []) {
 
-    if($total_paginas <= 1){
-        return;
-    }
+    if ($total_paginas <= 1) return;
 
     echo "<div class='paginacion'>";
 
-    for($i = 1; $i <= $total_paginas; $i++){
+    for ($i = 1; $i <= $total_paginas; $i++) {
 
-        $clase = ($i == $pagina_actual)
-            ? "pagina-activa"
-            : "";
+        $params = array_merge($params_extra, ['pagina' => $i]);
+        $url    = '?' . http_build_query($params);
+        $clase  = ($i == $pagina_actual) ? "pagina-activa" : "";
 
-        echo "
-            <a 
-                href='?pagina=$i'
-                class='$clase'
-            >
-                $i
-            </a>
-        ";
+        echo "<a href='$url' class='$clase'>$i</a>";
     }
 
     echo "</div>";

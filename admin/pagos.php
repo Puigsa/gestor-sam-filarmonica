@@ -19,7 +19,12 @@ include "../plantillas/navbar_privado.php";
 ?>
 
 <main class="main">
-    <?php botonVolver(); ?>
+    <?php
+    if (isset($_SESSION['mensaje'])) {
+        echo $_SESSION['mensaje'];
+        unset($_SESSION['mensaje']);
+    }
+    botonVolver(); ?>
     <h1>Gestión de Pagos</h1>
 
     <table class="tabla-pagos">
@@ -45,13 +50,13 @@ include "../plantillas/navbar_privado.php";
                     echo "<tr><td colspan='8'>No hay pagos registrados</td></tr>";
                 } else {
                     while ($pago = $pagos->fetch_assoc()) {
-                       $sql_usuario = $conexion->query("SELECT nombre, apellidos FROM usuarios WHERE id_usuario=" . $pago['id_alumno']);
-                       $usuario = $sql_usuario->fetch_assoc(); 
-                       $nombre = $usuario['nombre'];
-                       $apellidos = $usuario['apellidos'];
-                        ?>
+                        $sql_usuario = $conexion->query("SELECT nombre, apellidos FROM usuarios WHERE id_usuario=" . $pago['id_alumno']);
+                        $usuario = $sql_usuario->fetch_assoc();
+                        $nombre = $usuario['nombre'];
+                        $apellidos = $usuario['apellidos'];
+            ?>
                         <tr>
-                            <td><?= $nombre. ' ' . $apellidos ?></td>
+                            <td><?= $nombre . ' ' . $apellidos ?></td>
                             <td class="ocultar-mobile"><?= $pago['id_matricula'] ?></td>
                             <td><?= $pago['concepto'] ?></td>
                             <td><?= $pago['importe'] ?>€</td>

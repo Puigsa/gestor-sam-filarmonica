@@ -20,21 +20,21 @@ if (isset($_POST['crear'])) {
     $rol = $_POST['rol'];
 
     if (empty($nombre) || empty($apellidos) || empty($email) || empty($_POST['password']) || empty($rol)) {
-        $mensaje = "Rellena los campos obligatorios";
+        $mensaje_error = "<p class='mensaje_error'>Rellena los campos obligatorios</p>";
     } else {
         $existe = $conexion->query("SELECT id_usuario FROM usuarios WHERE email='$email'");
         if ($existe->num_rows > 0) {
-            $mensaje = "El email ya existe";
+            $mensaje_error = "<p class='mensaje_error'>El email ya existe</p>";
         } else {
             $sql = "INSERT INTO usuarios (nombre, apellidos, email, password, telefono, dni, fecha_nacimiento, direccion, rol) 
                     VALUES ('$nombre', '$apellidos', '$email', '$password', '$telefono', '$dni', '$fecha_nacimiento', '$direccion', '$rol')";
-            
+
             if ($conexion->query($sql)) {
-                $mensaje = "Usuario creado correctamente";
+                $_SESSION['mensaje'] = "<p class='mensaje_exito'>Usuario creado correctamente</p>";
                 header("Location: usuarios.php");
                 exit;
             } else {
-                $mensaje = "Error al crear el usuario";
+                $mensaje_error = "<p class='mensaje_error'>Error al crear el usuario</p>";
             }
         }
     }
@@ -49,29 +49,43 @@ include "../plantillas/navbar_privado.php";
 <main class="main">
     <?php botonVolver(); ?>
     <h1>Crear usuario</h1>
-    
-    <form method="POST" class="formulario-usuario">
-        Nombre: <input type="text" name="nombre" required>
-        Apellidos: <input type="text" name="apellidos" required>
-        Email: <input type="email" name="email" required>
-        Contraseña: <input type="password" name="password" required>
-        Teléfono: <input type="tel" name="telefono" required>
-        DNI: <input type="text" name="dni" required>
-        Fecha de nacimiento: <input type="date" name="fecha_nacimiento" required>
+
+    <form method="POST" class="formulario-usuario" id="formCrear">
+
+        Nombre: <input type="text" name="nombre" id="nombre" required>
+        <span class="error-campo" id="error-nombre"></span>
+
+        Apellidos: <input type="text" name="apellidos" id="apellidos" required>
+        <span class="error-campo" id="error-apellidos"></span>
+
+        Email: <input type="email" name="email" id="email" required>
+        <span class="error-campo" id="error-email"></span>
+
+        Contraseña: <input type="password" name="password" id="password" required>
+        <span class="error-campo" id="error-password"></span>
+
+        Teléfono: <input type="tel" name="telefono" id="telefono">
+        <span class="error-campo" id="error-telefono"></span>
+
+        DNI: <input type="text" name="dni" id="dni">
+        <span class="error-campo" id="error-dni"></span>
+
+        Fecha de nacimiento: <input type="date" name="fecha_nacimiento">
+
         Dirección: <input type="text" name="direccion">
-        
+
         <select name="rol" required>
             <option value="">Selecciona un rol</option>
             <option value="admin">Admin</option>
             <option value="profesor">Profesor</option>
             <option value="alumno">Alumno</option>
         </select>
-        
+
         <button type="submit" name="crear">Crear usuario</button>
     </form>
-    
-    <?php if (!empty($mensaje)) { ?>
-        <p class="mensaje"><?= $mensaje ?></p>
+
+    <?php if (!empty($mensaje_error)) { ?>
+        <?= $mensaje_error ?>
     <?php } ?>
 </main>
 

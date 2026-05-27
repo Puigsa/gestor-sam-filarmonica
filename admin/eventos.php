@@ -14,7 +14,13 @@ include "../plantillas/navbar_privado.php";
 ?>
 
 <main class="main">
-    <?php botonVolver(); ?>
+
+    <?php
+    if (isset($_SESSION['mensaje'])) {
+        echo $_SESSION['mensaje'];
+        unset($_SESSION['mensaje']);
+    }
+    botonVolver(); ?>
     <h1>Gestión de Eventos</h1>
     
     <a href="crear_evento.php" class="btn-crear">+ Crear evento</a>

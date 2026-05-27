@@ -126,3 +126,71 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error:', error));
     }
 });
+// ================================
+// VALIDACIÓN FORMULARIOS USUARIOS
+// ================================
+document.addEventListener('DOMContentLoaded', function () {
+
+    const reglas = {
+        nombre:         [/^[a-záéíóúñA-ZÁÉÍÓÚÑ\s]{2,50}$/, 'Solo letras, mínimo 2 caracteres'],
+        apellidos:      [/^[a-záéíóúñA-ZÁÉÍÓÚÑ\s]{2,100}$/, 'Solo letras, mínimo 2 caracteres'],
+        email:          [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Email no válido'],
+        password:       [/^.{6,}$/, 'Mínimo 6 caracteres'],
+        telefono:       [/^[0-9]{9}$/, 'El teléfono debe tener 9 dígitos'],
+        dni:            [/^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$|^[XYZ][0-9]{7}[TRWAGMYFPDXBNJZSQVHLCKE]$/, 'DNI/NIE no válido'],
+        direccion:      [/^.{3,}$/, 'Dirección demasiado corta'],
+        tutor_nombre:   [/^[a-záéíóúñA-ZÁÉÍÓÚÑ\s]{2,50}$/, 'Solo letras, mínimo 2 caracteres'],
+        tutor_dni:      [/^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$|^[XYZ][0-9]{7}[TRWAGMYFPDXBNJZSQVHLCKE]$/, 'DNI/NIE no válido'],
+        tutor_email:    [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Email no válido'],
+        tutor_telefono: [/^[0-9]{9}$/, 'El teléfono debe tener 9 dígitos'],
+    };
+
+    function validarCampo(id) {
+        const input = document.getElementById(id);
+        const error = document.getElementById('error-' + id);
+        if (!input || !error) return true;
+
+        // Si el campo es del tutor y el fieldset está oculto, no validar
+        const camposTutor = ['tutor_nombre', 'tutor_dni', 'tutor_email', 'tutor_telefono'];
+        if (camposTutor.includes(id)) {
+            const fieldset = document.getElementById('campos-tutor');
+            if (fieldset && fieldset.style.display === 'none') return true;
+        }
+
+        const valor = input.value.trim();
+        let valido = true;
+
+        if (input.required && valor === '') {
+            valido = false;
+        } else if (valor !== '') {
+            valido = reglas[id][0].test(valor);
+        }
+
+        error.textContent = valido ? '' : reglas[id][1];
+        return valido;
+    }
+
+    // Validar al perder el foco
+    Object.keys(reglas).forEach(function(id) {
+        const input = document.getElementById(id);
+        if (input) {
+            input.addEventListener('blur', function() {
+                validarCampo(id);
+            });
+        }
+    });
+
+    // Validar al enviar el formulario
+    ['formCrear', 'formEditar', 'formAprobar'].forEach(function(idForm) {
+        const form = document.getElementById(idForm);
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                let formularioValido = true;
+                Object.keys(reglas).forEach(function(id) {
+                    if (!validarCampo(id)) formularioValido = false;
+                });
+                if (!formularioValido) e.preventDefault();
+            });
+        }
+    });
+});

@@ -20,7 +20,11 @@ if ($existe->num_rows == 0) {
     exit;
 }
 
-$conexion->query("DELETE FROM eventos WHERE id_evento=$id");
+if ($conexion->query("DELETE FROM eventos WHERE id_evento=$id")) {
+    $_SESSION['mensaje'] = "<p class='mensaje_exito'>Evento eliminado correctamente</p>";
+} else {
+   echo "<p class='mensaje_error'>Error al eliminar el evento</p>";
+}
 desconectar($conexion);
 
 header("Location: eventos.php");

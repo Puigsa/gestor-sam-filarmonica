@@ -14,13 +14,21 @@ $prematriculas = $conexion->query("SELECT * FROM prematriculas WHERE estado='pen
 
 // Matrículas formalizadas
 $estado = $_GET['estado'] ?? 'activa';
+// TOTAL
+$total_result = $conexion->query("SELECT COUNT(*) AS total FROM matriculas WHERE estado='$estado'");
+$total = $total_result->fetch_assoc()['total'];
+
+// PAGINACIÓN
+$paginacion = paginar($total, 3);
+
 $matriculas = $conexion->query("SELECT m.*, u.nombre, u.apellidos, c.nombre as curso_nombre, i.nombre as instrumento_nombre 
                                 FROM matriculas m 
                                 JOIN usuarios u ON m.id_alumno = u.id_usuario 
                                 JOIN cursos c ON m.id_curso = c.id_curso 
                                 JOIN instrumentos i ON m.id_instrumento = i.id_instrumento 
                                 WHERE m.estado='$estado' 
-                                ORDER BY m.fecha_matricula DESC");
+                                ORDER BY m.fecha_matricula DESC
+                                LIMIT {$paginacion['offset']}, {$paginacion['limite']}");
 
 desconectar($conexion);
 
@@ -84,6 +92,7 @@ if (isset($_SESSION['mensaje_exito'])) {
 
         <h2>Matrículas formalizadas</h2>
 
+        
         <form method="GET">
             <label for="estado">Filtrar por estado:</label>
             <select name="estado" id="estado" onchange="this.form.submit()">
@@ -92,6 +101,8 @@ if (isset($_SESSION['mensaje_exito'])) {
                 <option value="cancelada" <?= $estado == 'cancelada' ? 'selected' : '' ?>>Canceladas</option>
             </select>
         </form>
+        <a href="exportar_matriculas_pdf.php?estado=<?= $estado ?>" class="btn-crear"> Exportar PDF </a>
+
 
         <?php if ($matriculas->num_rows > 0) { ?>
             <table class="tabla-matriculas">
@@ -124,6 +135,9 @@ if (isset($_SESSION['mensaje_exito'])) {
             <p>No hay matrículas formalizadas</p>
         <?php } ?>
     </section>
+    <?php mostrarPaginacion($paginacion['pagina'], $paginacion['total_paginas'], [
+        'estado' => $estado
+    ]); ?>
 </main>
 
 <?php include "../plantillas/footer_privado.php"; ?>

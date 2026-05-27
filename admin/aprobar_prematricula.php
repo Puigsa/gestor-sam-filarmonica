@@ -132,9 +132,11 @@ if (isset($_POST['aprobar'])) {
     }
 
     // Verificar que el alumno no tiene otra matrícula activa
-    $alumno_activa = $conexion->query("SELECT id FROM matriculas WHERE id_alumno = $id_alumno AND estado = 'activa'");
-    if ($alumno_activa->num_rows > 0) {
-        $mensaje_error = "El alumno ya tiene una matrícula activa";
+    if (empty($mensaje_error) && isset($id_alumno)) {
+        $alumno_activa = $conexion->query("SELECT id FROM matriculas WHERE id_alumno = $id_alumno AND estado = 'activa'");
+        if ($alumno_activa && $alumno_activa->num_rows > 0) {
+            $mensaje_error = "El alumno ya tiene una matrícula activa";
+        }
     }
 
 
@@ -192,45 +194,70 @@ include "../plantillas/navbar_privado.php";
         <p class="mensaje_error"><?= $mensaje_error ?></p>
     <?php } ?>
 
-    <form method="POST">
+    <form method="POST" id="formAprobar">
         <fieldset style="border:none">
             <h3>Datos personales</h3>
-            Nombre: <input type="text" name="nombre"
+
+            Nombre: <input type="text" name="nombre" id="nombre"
                 value="<?= isset($_POST['nombre']) ? $_POST['nombre'] : $datos['nombre'] ?>" required>
-            Apellidos: <input type="text" name="apellidos"
+            <span class="error-campo" id="error-nombre"></span>
+
+            Apellidos: <input type="text" name="apellidos" id="apellidos"
                 value="<?= isset($_POST['apellidos']) ? $_POST['apellidos'] : $datos['apellidos'] ?>" required>
-            Email: <input type="email" name="email"
+            <span class="error-campo" id="error-apellidos"></span>
+
+            Email: <input type="email" name="email" id="email"
                 value="<?= isset($_POST['email']) ? $_POST['email'] : $datos['email'] ?>" required>
-            Teléfono: <input type="tel" name="telefono"
+            <span class="error-campo" id="error-email"></span>
+
+            Teléfono: <input type="tel" name="telefono" id="telefono"
                 value="<?= isset($_POST['telefono']) ? $_POST['telefono'] : $datos['telefono'] ?>">
-            DNI: <input type="text" name="dni" value="<?= isset($_POST['dni']) ? $_POST['dni'] : $datos['dni'] ?>"
-                required>
+            <span class="error-campo" id="error-telefono"></span>
+
+            DNI: <input type="text" name="dni" id="dni"
+                value="<?= isset($_POST['dni']) ? $_POST['dni'] : $datos['dni'] ?>" required>
+            <span class="error-campo" id="error-dni"></span>
+
             Fecha de nacimiento: <input type="date" id="fecha_nacimiento" name="fecha_nacimiento"
                 value="<?= isset($_POST['fecha_nacimiento']) ? $_POST['fecha_nacimiento'] : $datos['fecha_nacimiento'] ?>"
                 onchange="validarFecha()">
-            Dirección: <input type="text" name="direccion"
+
+            Dirección: <input type="text" name="direccion" id="direccion"
                 value="<?= isset($_POST['direccion']) ? $_POST['direccion'] : $datos['direccion'] ?>" required>
+            <span class="error-campo" id="error-direccion"></span>
+
         </fieldset>
 
-        <fieldset id="campos-tutor" style="display: none; border:none;">
+        <fieldset id="campos-tutor"style="display:none; border:none;">
             <h3>Datos del tutor/a legal</h3>
-            Nombre tutor/a: <input type="text" name="tutor_nombre"
+
+            Nombre tutor/a: <input type="text" name="tutor_nombre" id="tutor_nombre"
                 value="<?= isset($_POST['tutor_nombre']) ? $_POST['tutor_nombre'] : $datos['tutor_nombre'] ?>">
-            DNI tutor/a: <input type="text" name="tutor_dni"
+            <span class="error-campo" id="error-tutor_nombre"></span>
+
+            DNI tutor/a: <input type="text" name="tutor_dni" id="tutor_dni"
                 value="<?= isset($_POST['tutor_dni']) ? $_POST['tutor_dni'] : $datos['tutor_dni'] ?>">
-            Email tutor/a: <input type="email" name="tutor_email"
+            <span class="error-campo" id="error-tutor_dni"></span>
+
+            Email tutor/a: <input type="email" name="tutor_email" id="tutor_email"
                 value="<?= isset($_POST['tutor_email']) ? $_POST['tutor_email'] : $datos['tutor_email'] ?>">
-            Teléfono tutor/a: <input type="text" name="tutor_telefono"
+            <span class="error-campo" id="error-tutor_email"></span>
+
+            Teléfono tutor/a: <input type="text" name="tutor_telefono" id="tutor_telefono"
                 value="<?= isset($_POST['tutor_telefono']) ? $_POST['tutor_telefono'] : $datos['tutor_telefono'] ?>">
+            <span class="error-campo" id="error-tutor_telefono"></span>
+
             Consentimiento:
             <select name="tutor_consentimiento">
                 <option value="1" <?= isset($_POST['tutor_consentimiento']) ? ($_POST['tutor_consentimiento'] == 1 ? 'selected' : '') : ($datos['tutor_consentimiento'] == 1 ? 'selected' : '') ?>>SÍ</option>
                 <option value="0" <?= isset($_POST['tutor_consentimiento']) ? ($_POST['tutor_consentimiento'] == 0 ? 'selected' : '') : ($datos['tutor_consentimiento'] == 0 ? 'selected' : '') ?>>NO</option>
             </select>
+
         </fieldset>
 
         <fieldset style="border:none">
             <h3>Datos académicos</h3>
+
             <select name="id_curso" required>
                 <option value="">Selecciona curso</option>
                 <?php while ($curso = $cursos->fetch_assoc()) { ?>
@@ -248,30 +275,29 @@ include "../plantillas/navbar_privado.php";
                     </option>
                 <?php } ?>
             </select>
+
         </fieldset>
 
         <?php if ($datos['estado'] == 'aprobada') { ?>
             <button type="submit" name="aprobar" disabled>Ya aprobada</button>
         <?php } else { ?>
             <button type="submit" name="aprobar"
-                onclick="return confirm('¿Estás seguro de que deseas aprobar esta prematrícula?')">Aprobar y formalizar
-                matrícula</button>
+                onclick="return confirm('¿Estás seguro de que deseas aprobar esta prematrícula?')">Aprobar y formalizar matrícula</button>
         <?php } ?>
+
     </form>
 
 </main>
 
 <script>
-    // Mostrar/ocultar campos de tutor según edad
+
     function validarFecha() {
         const fecha = document.getElementById('fecha_nacimiento').value;
-        if (!fecha) {
-            return;
-        }
+        const fieldset = document.getElementById('campos-tutor');
+        if (!fecha) return;
 
         const hoy = new Date();
         const nacimiento = new Date(fecha);
-
         let edad = hoy.getFullYear() - nacimiento.getFullYear();
         const mes = hoy.getMonth() - nacimiento.getMonth();
 
@@ -279,14 +305,11 @@ include "../plantillas/navbar_privado.php";
             edad--;
         }
 
-        if (edad < 18) {
-            document.getElementById('campos-tutor').style.display = 'block';
-        } else {
-            document.getElementById('campos-tutor').style.display = 'none';
-        }
+        fieldset.style.display = edad < 18 ? 'block' : 'none';
     }
 
     window.addEventListener('load', validarFecha);
+
 </script>
 
 <?php include "../plantillas/footer_privado.php"; ?>

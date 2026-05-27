@@ -31,11 +31,11 @@ if (isset($_POST['editar'])) {
     $sql = "UPDATE pagos SET estado='$estado', metodo='$metodo', concepto='$concepto' WHERE id_pago=$id";
     
     if ($conexion->query($sql)) {
-        $mensaje = "Pago actualizado correctamente";
+        $_SESSION['mensaje'] = "<p class='mensaje_exito'>Pago actualizado correctamente</p>";
         header("Location: pagos.php");
         exit;
     } else {
-        $mensaje = "Error al actualizar";
+        $mensaje_error = "<p class='mensaje_error'>Error al actualizar el pago.</p>" . $conexion->error;
     }
 }
 
@@ -62,8 +62,8 @@ include "../plantillas/navbar_privado.php";
         <button type="submit" name="editar">Actualizar pago</button>
     </form>
     
-    <?php if (!empty($mensaje)) { ?>
-        <p class="mensaje"><?= $mensaje ?></p>
+    <?php if (!empty($mensaje_error)) { ?>
+        <?= $mensaje_error ?>
     <?php } ?>
 </main>
 

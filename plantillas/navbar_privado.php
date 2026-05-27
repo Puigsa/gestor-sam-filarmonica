@@ -83,7 +83,9 @@ $nombre = $_SESSION['nombre'];
 
         const menuToggle = document.getElementById("menuToggle");
         const sidebar = document.getElementById("sidebar");
+
         const overlay = document.getElementById("overlay");
+
         const links = document.querySelectorAll(".sidebar-menu a");
 
         if (!menuToggle || !sidebar || !overlay) return;
