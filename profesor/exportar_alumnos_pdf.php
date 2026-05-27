@@ -33,7 +33,7 @@ $alumnos = $conexion->query("SELECT DISTINCT
                                 FROM asignaturas a
                                 JOIN matriculas m ON a.id_curso = m.id_curso
                                 JOIN usuarios u ON m.id_alumno = u.id_usuario
-                                WHERE a.id_asignatura = $id_asignatura AND m.estado = 'activa' AND u.rol = 'alumno'
+                                WHERE a.id_asignatura = $id_asignatura AND m.estado = 'activa' AND u.rol = 'alumno' AND u.estado = 1
                                 ORDER BY u.nombre ASC");
 
 desconectar($conexion);
