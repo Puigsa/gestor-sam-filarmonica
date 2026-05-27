@@ -98,6 +98,7 @@ include "../plantillas/navbar_privado.php";
 ?>
 
 <main class="main">
+    <?php botonVolver(); ?>
     <h1>Editar matrícula</h1>
 
     <form method="POST">

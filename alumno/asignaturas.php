@@ -10,9 +10,10 @@ include "../plantillas/navbar_privado.php";
 ?>
 
 <main class="main">
-    <h1>Mis asignaturas</h1>
+    <?php botonVolver(); ?>
+ 
 
-    <div class="dashboard-grid">
+    
         <?php
         $conexion = conectar();
         $id_alumno = $_SESSION['id_usuario'];
@@ -31,13 +32,15 @@ include "../plantillas/navbar_privado.php";
         if ($curso->num_rows == 0) {
             echo "<p>No estás matriculado/a en ningún curso.</p>";
         } else {
-            $nombre_curso = $curso->fetch_assoc();
+            $nombre_curso = $curso->fetch_assoc()['nombre'];
 
-            echo "<h1>MI CURSO: $nombre_curso</h1>";    
+            echo "<h1>CURSO: $nombre_curso</h1>";    
+            echo "<h1>Mis asignaturas</h1>";
             if ($asignaturas->num_rows == 0) {
                 echo "<p>No tienes asignaturas asignadas.</p>";
-            } else {
-                while ($asignatura = $asignaturas->fetch_assoc()) { ?>
+            } else { ?>
+                <div class="dashboard-grid">
+                <?php while ($asignatura = $asignaturas->fetch_assoc()) { ?>
                     <div class="dashboard-card">
 
                         <h3><?= $asignatura['nombre'] ?></h3>

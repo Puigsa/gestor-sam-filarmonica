@@ -14,6 +14,7 @@ include "../plantillas/navbar_privado.php";
 ?>
 
 <main class="main">
+    <?php botonVolver(); ?>
     <h1>Gestión de Usuarios</h1>
     
     <a href="crear_usuario.php" class="btn-crear">+ Crear usuario</a>

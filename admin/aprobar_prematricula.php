@@ -185,6 +185,7 @@ include "../plantillas/navbar_privado.php";
 ?>
 
 <main class="main">
+    <?php botonVolver(); ?>
     <h1>Aprobar prematrícula</h1>
 
     <?php if (!empty($mensaje_error)) { ?>

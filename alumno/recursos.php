@@ -38,6 +38,7 @@ include "../plantillas/navbar_privado.php";
 ?>
 
 <main class="main">
+    <?php botonVolver(); ?>
     <h1>Recursos</h1>
 
     <form method="GET" style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">

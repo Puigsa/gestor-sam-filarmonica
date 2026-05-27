@@ -91,3 +91,12 @@ function paginar($query, $por_pagina = 10) {
         'total_paginas' => $total_paginas
     ];
 }
+
+function botonVolver($ruta = null){
+
+    if($ruta){
+        echo "<a href='$ruta' class='btn-volver'>← Volver</a>";
+    } else {
+        echo "<a href='javascript:history.back()' class='btn-volver'>← Volver</a>";
+    }
+}

@@ -46,6 +46,7 @@ include "../plantillas/navbar_privado.php";
 ?>
 
 <main class="main">
+    <?php botonVolver(); ?>
     <h1>Editar pago</h1>
     
     <form method="POST">

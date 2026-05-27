@@ -14,6 +14,7 @@ include "../plantillas/navbar_privado.php";
 ?>
 
 <main class="main">
+    <?php botonVolver(); ?>
     <h1>Gestión de Eventos</h1>
     
     <a href="crear_evento.php" class="btn-crear">+ Crear evento</a>

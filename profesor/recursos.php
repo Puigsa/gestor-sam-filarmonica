@@ -104,6 +104,7 @@ include "../plantillas/navbar_privado.php";
 ?>
 
 <main class="main">
+    <?php botonVolver(); ?>
 
     <?php if (!empty($mensaje)) {
         echo $mensaje;

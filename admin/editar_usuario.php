@@ -56,6 +56,7 @@ include "../plantillas/navbar_privado.php";
 ?>
 
 <main class="main">
+    <?php botonVolver(); ?>
     <h1>Editar usuario</h1>
     
     <form method="POST" class="formulario-usuario">

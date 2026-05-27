@@ -5,6 +5,13 @@ require_once "../includes/funciones.php";
 comprobarAcceso();
 comprobarRol("alumno");
 $id_alumno = $_SESSION['id_usuario'];
+$filtro_asignatura = "";
+
+if (isset($_GET['id_asignatura']) && !empty($_GET['id_asignatura'])) {
+
+    $id_asignatura_seleccionada = (int)$_GET['id_asignatura'];
+    $filtro_asignatura = " AND a.id_asignatura = $id_asignatura_seleccionada";
+}
 
 include "../plantillas/header_privado.php";
 include "../plantillas/navbar_privado.php";
@@ -13,6 +20,9 @@ include "../plantillas/navbar_privado.php";
 
 
 <main class="main">
+
+<?php botonVolver(); ?>
+
     <h1>Anuncios</h1>
 
     <div id="accordion">
@@ -25,7 +35,7 @@ include "../plantillas/navbar_privado.php";
                                     JOIN asignaturas asi ON a.id_asignatura = asi.id_asignatura
                                     JOIN matriculas m ON a.id_curso = m.id_curso
                                     JOIN usuarios u ON a.id_profesor = u.id_usuario
-                                    WHERE m.id_alumno = $id_alumno AND m.estado = 'activa'
+                                    WHERE m.id_alumno = $id_alumno AND m.estado = 'activa' $filtro_asignatura
                                     ORDER BY a.fecha_publicacion DESC");
 
         if (!$result) {

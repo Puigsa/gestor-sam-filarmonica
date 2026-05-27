@@ -42,6 +42,7 @@ include "../plantillas/navbar_privado.php";
 ?>
 
 <main class="main">
+    <?php botonVolver(); ?>
 
     <h1>
         Alumnos - <?= $datos_asignatura['nombre'] ?>

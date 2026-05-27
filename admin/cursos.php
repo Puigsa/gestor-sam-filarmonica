@@ -18,6 +18,7 @@ include "../plantillas/navbar_privado.php";
 ?>
 
 <main class="main">
+    <?php botonVolver(); ?>
     <h1>Gestión de Cursos</h1>
     
     <a href="crear_curso.php" class="btn-crear">+ Crear curso</a>

@@ -9,11 +9,11 @@ $nombre = $_SESSION['nombre'];
 <!-- Franja superior -->
 <div class="navbar-privado-top">
     <!-- Toggle sidebar móvil -->
-    <div class="sidebar-toggle" id="sidebarToggle">
+    <button class="menu-toggle" id="menuToggle" aria-label="Menú">
         <span></span>
         <span></span>
         <span></span>
-    </div>
+    </button>
 
     <div class="breadcrumb">
         <?php
@@ -43,7 +43,7 @@ $nombre = $_SESSION['nombre'];
 </div>
 
 <!-- Overlay sidebar -->
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="overlay" id="overlay"></div>
 
 <!-- Sidebar -->
 <aside class="sidebar" id="sidebar">
@@ -79,31 +79,31 @@ $nombre = $_SESSION['nombre'];
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        const sidebarToggle = document.getElementById("sidebarToggle");
+        const menuToggle = document.getElementById("menuToggle");
         const sidebar = document.getElementById("sidebar");
-        const overlay = document.getElementById("sidebarOverlay");
+        const overlay = document.getElementById("overlay");
         const links = document.querySelectorAll(".sidebar-menu a");
 
-        if (!sidebarToggle || !sidebar || !overlay) return;
+        if (!menuToggle || !sidebar || !overlay) return;
 
-        function openSidebar() {
+        function openMenu() {
             sidebar.classList.add("active");
-            sidebarToggle.classList.add("active");
+            menuToggle.classList.add("active");
             overlay.classList.add("active");
         }
 
-        function closeSidebar() {
+        function closeMenu() {
             sidebar.classList.remove("active");
-            sidebarToggle.classList.remove("active");
+            menuToggle.classList.remove("active");
             overlay.classList.remove("active");
         }
 
-        sidebarToggle.addEventListener("click", () => {
-            sidebar.classList.contains("active") ? closeSidebar() : openSidebar();
+        menuToggle.addEventListener("click", () => {
+            sidebar.classList.contains("active") ? closeMenu() : openMenu();
         });
 
-        overlay.addEventListener("click", closeSidebar);
+        overlay.addEventListener("click", closeMenu);
 
-        links.forEach((link) => link.addEventListener("click", closeSidebar));
+        links.forEach((link) => link.addEventListener("click", closeMenu));
     });
 </script>

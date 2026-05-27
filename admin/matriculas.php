@@ -36,6 +36,7 @@ if (isset($_SESSION['mensaje_exito'])) {
 
 
 <main class="main">
+    <?php botonVolver(); ?>
     <h1>Gestión de Matrículas</h1>
 
     <!-- PREMATRÍCULAS -->

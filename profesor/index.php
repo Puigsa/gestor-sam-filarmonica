@@ -10,6 +10,7 @@ include "../plantillas/navbar_privado.php";
 ?>
 
 <main class="main">
+    <?php botonVolver(); ?>
     <h1>Dashboard</h1>
     
     <div class="dashboard-grid">

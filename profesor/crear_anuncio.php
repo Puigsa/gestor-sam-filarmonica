@@ -43,6 +43,7 @@ include "../plantillas/navbar_privado.php";
 ?>
 
 <main class="main">
+    <?php botonVolver(); ?>
     <h1>Crear anuncio</h1>
 
     <form action="crear_anuncio.php" method="POST">

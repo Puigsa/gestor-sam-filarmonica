@@ -19,6 +19,7 @@ include "../plantillas/navbar_privado.php";
 ?>
 
 <main class="main">
+    <?php botonVolver(); ?>
     <h1>Gestión de Pagos</h1>
 
     <table class="tabla-pagos">

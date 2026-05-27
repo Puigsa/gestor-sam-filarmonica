@@ -53,6 +53,7 @@ include "../plantillas/navbar_privado.php";
 ?>
 
 <main class="main">
+    <?php botonVolver(); ?>
     <h1>Editar curso</h1>
     
     <form method="POST">
