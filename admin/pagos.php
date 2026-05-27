@@ -26,12 +26,12 @@ include "../plantillas/navbar_privado.php";
         <thead>
             <tr>
                 <th>Alumno</th>
-                <th>Matrícula</th>
+                <th class="ocultar-mobile">Matrícula</th>
                 <th>Concepto</th>
                 <th>Importe</th>
                 <th>Estado</th>
-                <th>Fecha pago</th>
-                <th>Método</th>
+                <th class="ocultar-mobile">Fecha pago</th>
+                <th class="ocultar-mobile">Método</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -52,12 +52,12 @@ include "../plantillas/navbar_privado.php";
                         ?>
                         <tr>
                             <td><?= $nombre. ' ' . $apellidos ?></td>
-                            <td><?= $pago['id_matricula'] ?></td>
+                            <td class="ocultar-mobile"><?= $pago['id_matricula'] ?></td>
                             <td><?= $pago['concepto'] ?></td>
                             <td><?= $pago['importe'] ?>€</td>
                             <td><?= ucfirst($pago['estado']) ?></td>
-                            <td><?= date('d/m/Y', strtotime($pago['fecha_pago'])) ?></td>
-                            <td><?= $pago['metodo'] ?></td>
+                            <td class="ocultar-mobile"><?= date('d/m/Y', strtotime($pago['fecha_pago'])) ?></td>
+                            <td class="ocultar-mobile"><?= $pago['metodo'] ?></td>
                             <td>
                                 <a href="editar_pago.php?id=<?= $pago['id_pago'] ?>" class="btn-editar">Editar</a>
                             </td>

@@ -6,7 +6,22 @@ comprobarAcceso();
 comprobarRol('admin');
 
 $conexion = conectar();
-$usuarios = $conexion->query("SELECT id_usuario, nombre, apellidos, email, rol FROM usuarios ORDER BY nombre ASC");
+
+// TOTAL USUARIOS
+$total_usuarios = $conexion->query("SELECT COUNT(*) AS total FROM usuarios");
+
+$total = $total_usuarios->fetch_assoc()['total'];
+
+
+// PAGINACIÓN
+$paginacion = paginar($total, 5);
+
+
+// USUARIOS PAGINADOS
+$usuarios = $conexion->query("SELECT  id_usuario, nombre, apellidos, email, rol 
+                                FROM usuarios ORDER BY nombre ASC  
+                                LIMIT {$paginacion['limite']} OFFSET {$paginacion['offset']}");
+
 desconectar($conexion);
 
 include "../plantillas/header_privado.php";
@@ -14,7 +29,9 @@ include "../plantillas/navbar_privado.php";
 ?>
 
 <main class="main">
-    <?php botonVolver(); ?>
+
+    <?php botonVolver("index.php"); ?>
+
     <h1>Gestión de Usuarios</h1>
     
     <a href="crear_usuario.php" class="btn-crear">+ Crear usuario</a>
@@ -44,6 +61,7 @@ include "../plantillas/navbar_privado.php";
             <?php } ?>
         </tbody>
     </table>
+    <?php mostrarPaginacion($paginacion['pagina'], $paginacion['total_paginas']); ?>
 </main>
 
 <?php include "../plantillas/footer_privado.php"; ?>

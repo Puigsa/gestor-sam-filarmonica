@@ -97,7 +97,7 @@ include "../plantillas/navbar_privado.php";
                 <thead>
                     <tr>
                         <th>Título</th>
-                        <th>Contenido</th>
+                        <th class="ocultar-mobile">Contenido</th>
                         <th>Asignatura</th>
                         <th>Fecha publicación</th>
                         <th>Acciones</th>
@@ -107,7 +107,7 @@ include "../plantillas/navbar_privado.php";
                     <?php while ($anuncio = $anuncios->fetch_assoc()) { ?>
                         <tr>
                             <td class="titulo"><?= $anuncio['titulo'] ?></td>
-                            <td class="contenido"><?= $anuncio['contenido'] ?></td>
+                            <td class="contenido ocultar-mobile"><?= $anuncio['contenido'] ?></td>
                             <td><?= $anuncio['asignatura_nombre'] ?></td>
                             <td><?= date("d/m/Y", strtotime($anuncio['fecha_publicacion'])) ?></td>
                             <td>

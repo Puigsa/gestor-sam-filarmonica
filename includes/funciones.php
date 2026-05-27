@@ -77,19 +77,53 @@ function validarTelefono($telefono) {
 
 
 // Paginación
-function paginar($query, $por_pagina = 10) {
-    $pagina = (int)($_GET['pagina'] ?? 1);
-    $offset = ($pagina - 1) * $por_pagina;
-   
-    $resultado = $query->fetch_all();
-    $total = count($resultado);
-    $total_paginas = ceil($total / $por_pagina);
-   
+function paginar($total_registros, $registros_por_pagina){
+
+    $pagina = isset($_GET['pagina']) 
+        ? (int)$_GET['pagina'] 
+        : 1;
+
+    if($pagina < 1){
+        $pagina = 1;
+    }
+
+    $total_paginas = ceil($total_registros / $registros_por_pagina);
+
+    $offset = ($pagina - 1) * $registros_por_pagina;
+
     return [
-        'datos' => array_slice($resultado, $offset, $por_pagina),
         'pagina' => $pagina,
-        'total_paginas' => $total_paginas
+        'total_paginas' => $total_paginas,
+        'offset' => $offset,
+        'limite' => $registros_por_pagina
     ];
+}
+
+function mostrarPaginacion($pagina_actual, $total_paginas){
+
+    if($total_paginas <= 1){
+        return;
+    }
+
+    echo "<div class='paginacion'>";
+
+    for($i = 1; $i <= $total_paginas; $i++){
+
+        $clase = ($i == $pagina_actual)
+            ? "pagina-activa"
+            : "";
+
+        echo "
+            <a 
+                href='?pagina=$i'
+                class='$clase'
+            >
+                $i
+            </a>
+        ";
+    }
+
+    echo "</div>";
 }
 
 function botonVolver($ruta = null){

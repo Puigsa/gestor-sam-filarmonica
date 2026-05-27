@@ -57,6 +57,7 @@ $nombre = $_SESSION['nombre'];
             <a href="usuarios.php" class="menu-item">Usuarios</a>
             <a href="cursos.php" class="menu-item">Cursos</a>
             <a href="matriculas.php" class="menu-item">Matrículas</a>
+            <a href="asignaturas.php" class="menu-item">Asignaturas</a>
             <a href="pagos.php" class="menu-item">Pagos</a>
             <a href="anuncios.php" class="menu-item">Anuncios</a>
 
@@ -79,6 +80,7 @@ $nombre = $_SESSION['nombre'];
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
+
         const menuToggle = document.getElementById("menuToggle");
         const sidebar = document.getElementById("sidebar");
         const overlay = document.getElementById("overlay");
@@ -99,11 +101,14 @@ $nombre = $_SESSION['nombre'];
         }
 
         menuToggle.addEventListener("click", () => {
-            sidebar.classList.contains("active") ? closeMenu() : openMenu();
+            sidebar.classList.contains("active") ?
+                closeMenu() :
+                openMenu();
         });
 
         overlay.addEventListener("click", closeMenu);
-
-        links.forEach((link) => link.addEventListener("click", closeMenu));
+        links.forEach(link => {
+            link.addEventListener("click", closeMenu);
+        });
     });
 </script>

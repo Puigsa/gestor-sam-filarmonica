@@ -27,7 +27,7 @@ include "../plantillas/navbar_privado.php";
         <thead>
             <tr>
                 <th>Nombre</th>
-                <th>Descripción</th>
+                <th class="ocultar-mobile">Descripción</th>
                 <th>Curso</th>
                 <th>Plazas</th>
                 <th>Precio</th>
@@ -42,7 +42,7 @@ include "../plantillas/navbar_privado.php";
             <?php } while ($curso = $cursos->fetch_assoc()) { ?>
                 <tr>
                     <td><?= $curso['nombre'] ?></td>
-                    <td><?= $curso['descripcion'] ?></td>
+                    <td class="ocultar-mobile"><?= $curso['descripcion'] ?></td>
                     <td><?= $curso['curso_academico'] ?></td>
                     <td><?= $curso['plazas'] ?></td>
                     <td><?= $curso['precio'] ?>€</td>

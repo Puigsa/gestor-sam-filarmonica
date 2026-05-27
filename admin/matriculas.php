@@ -40,16 +40,16 @@ if (isset($_SESSION['mensaje_exito'])) {
     <h1>Gestión de Matrículas</h1>
 
     <!-- PREMATRÍCULAS -->
-    <section class="seccion-prematriculas">
+    <section>
         <h2>Prematrículas pendientes</h2>
 
         <?php if ($prematriculas->num_rows > 0) { ?>
-            <table class="tabla-matriculas">
+            <table>
                 <thead>
                     <tr>
                         <th>Nombre</th>
                         <th>Email</th>
-                        <th>Teléfono</th>
+                        <th class="ocultar-mobile">Teléfono</th>
                         <th>Curso</th>
                         <th>Instrumento</th>
                         <th>Fecha solicitud</th>
@@ -61,7 +61,7 @@ if (isset($_SESSION['mensaje_exito'])) {
                         <tr>
                             <td><?= $pre['nombre'] . ' ' . $pre['apellidos'] ?></td>
                             <td><?= $pre['email'] ?></td>
-                            <td><?= $pre['telefono'] ?></td>
+                            <td class="ocultar-mobile"><?= $pre['telefono'] ?></td>
                             <td><?= $pre['id_curso'] ?></td>
                             <td><?= $pre['id_instrumento'] ?></td>
                             <td><?= date('d/m/Y', strtotime($pre['fecha_solicitud'])) ?></td>
@@ -80,7 +80,7 @@ if (isset($_SESSION['mensaje_exito'])) {
 
     <!-- MATRÍCULAS -->
 
-    <section class="seccion-matriculas">
+    <section>
 
         <h2>Matrículas formalizadas</h2>
 
@@ -101,7 +101,7 @@ if (isset($_SESSION['mensaje_exito'])) {
                         <th>Curso</th>
                         <th>Instrumento</th>
                         <th>Fecha matrícula</th>
-                        <th>Estado</th>
+                        <th class="ocultar-mobile">Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -112,7 +112,7 @@ if (isset($_SESSION['mensaje_exito'])) {
                             <td><?= $mat['curso_nombre'] ?></td>
                             <td><?= $mat['instrumento_nombre'] ?></td>
                             <td><?= date('d/m/Y', strtotime($mat['fecha_matricula'])) ?></td>
-                            <td><?= ucfirst($mat['estado']) ?></td>
+                            <td class="ocultar-mobile"><?= ucfirst($mat['estado']) ?></td>
                             <td>
                                 <a href="editar_matricula.php?id=<?= $mat['id_matricula'] ?>" class="btn-editar">Editar</a>
                             </td>

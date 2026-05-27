@@ -24,7 +24,7 @@ include "../plantillas/navbar_privado.php";
             <tr>
                 <th>Título</th>
                 <th>Fecha</th>
-                <th>Hora</th>
+                <th class="ocultar-mobile">Hora</th>
                 <th>Lugar</th>
                 <th>Publicado</th>
                 <th>Acciones</th>
@@ -35,7 +35,7 @@ include "../plantillas/navbar_privado.php";
                 <tr>
                     <td><?= $evento['titulo'] ?></td>
                     <td><?= date('d/m/Y', strtotime($evento['fecha'])) ?></td>
-                    <td><?= $evento['hora'] ?></td>
+                    <td class="ocultar-mobile"><?= $evento['hora'] ?></td>
                     <td><?= $evento['lugar'] ?></td>
                     <td><?= $evento['publicado'] ? 'Sí' : 'No' ?></td>
                     <td>
