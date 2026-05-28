@@ -453,7 +453,7 @@ form button:hover {
 
 /* ACORDEÓN */
 #accordion {
-    margin-top: 1.5rem;
+    margin: 0 auto;
     width: 100%;
 }
 

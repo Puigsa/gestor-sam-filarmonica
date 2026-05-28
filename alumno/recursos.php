@@ -72,7 +72,25 @@ include "../plantillas/navbar_privado.php";
                         <td><?= htmlspecialchars($recurso['asignatura_nombre']) ?></td>
                         <td><?= htmlspecialchars($recurso['profesor_nombre']) ?></td>
                         <td><?= date("d/m/Y", strtotime($recurso['fecha_subida'])) ?></td>
-                        <td><a href="../subidas/recursos/<?= urlencode($recurso['archivo']) ?>" target="_blank" class="btn-editar">Abrir recurso</a></td>
+                        <td>
+                            <?php
+                            $archivo = $recurso['archivo'];
+                            if (filter_var($archivo, FILTER_VALIDATE_URL)) {
+                            ?>
+
+                                <a href="<?= $archivo ?>" target="_blank" class="btn-editar">
+                                    Abrir enlace
+                                </a>
+
+                            <?php } else { ?>
+
+                                <a href="../subidas/recursos/<?= urlencode($archivo) ?>" target="_blank" class="btn-editar">
+                                    Abrir recurso
+                                </a>
+
+                            <?php } ?>
+
+                        </td>
                     </tr>
                 <?php } ?>
             </tbody>

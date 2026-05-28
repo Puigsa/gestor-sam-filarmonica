@@ -1,4 +1,10 @@
 <?php
+/**
+ * Página del profesor para listado-alumnos.
+ * Archivo: profesor/listado-alumnos.php
+ */
+
+
 session_start();
 
 require_once "../includes/config.php";
@@ -39,12 +45,15 @@ $total = $total_result->fetch_assoc()['total'];
 $paginacion = paginar($total, 10);
 
 // OBTENER ALUMNOS PAGINADOS
-$alumnos = $conexion->query("SELECT DISTINCT u.id_usuario, u.nombre, u.email FROM asignaturas a
+$alumnos = $conexion->query(" SELECT DISTINCT u.id_usuario, u.nombre, u.apellidos, u.email, u.telefono, u.fecha_nacimiento
+                                FROM asignaturas a
                                 JOIN matriculas m ON a.id_curso = m.id_curso
                                 JOIN usuarios u ON m.id_alumno = u.id_usuario
-                                WHERE a.id_asignatura = $id_asignatura AND m.estado = 'activa' AND u.rol = 'alumno'
+                                WHERE a.id_asignatura = $id_asignatura AND m.estado = 'activa' AND u.rol = 'alumno' AND u.activo = 1
                                 ORDER BY u.nombre ASC
                                 LIMIT {$paginacion['offset']}, {$paginacion['limite']}");
+
+                               
 
 include "../plantillas/header_privado.php";
 include "../plantillas/navbar_privado.php";
@@ -63,19 +72,26 @@ include "../plantillas/navbar_privado.php";
             <thead>
                 <tr>
                     <th>Nombre</th>
+                    <th>Apellidos</th>
                     <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Fecha nacimiento</th>
+
                 </tr>
             </thead>
             <tbody>
                 <?php while($alumno = $alumnos->fetch_assoc()){ ?>
                     <tr>
                         <td><?= $alumno['nombre'] ?></td>
+                        <td><?= $alumno['apellidos'] ?></td>
                         <td><?= $alumno['email'] ?></td>
+                        <td><?= $alumno['telefono'] ?></td>
+                        <td><?= date("d/m/Y", strtotime($alumno['fecha_nacimiento'])) ?></td>
+
                     </tr>
                 <?php } ?>
             </tbody>
         </table>
-
         <?php mostrarPaginacion($paginacion['pagina'], $paginacion['total_paginas'], [
             'id_asignatura' => $id_asignatura
         ]); ?>

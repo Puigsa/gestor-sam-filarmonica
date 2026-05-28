@@ -9,6 +9,26 @@ comprobarRol("profesor");
 
 $conexion = conectar();
 
+// ELIMINAR RECURSO 
+if (isset($_GET['eliminar'])) {
+
+    $id = (int)$_GET['eliminar'];
+    $id_profesor = $_SESSION['id_usuario'];
+
+    $conexion->query("DELETE FROM recursos
+                      WHERE id_recurso = $id
+                      AND publicado_por = $id_profesor");
+
+    $_SESSION['mensaje'] = "
+        <p class='mensaje_exito'>
+            Recurso eliminado correctamente
+        </p>
+    ";
+
+    header("Location: recursos.php");
+    exit;
+}
+
 $id_profesor = $_SESSION['id_usuario'];
 $mensaje = "";
 $id_asignatura_seleccionada = 0;
@@ -104,37 +124,45 @@ include "../plantillas/navbar_privado.php";
 ?>
 
 <main class="main">
+
     <?php botonVolver(); ?>
 
     <?php if (!empty($mensaje)) {
         echo $mensaje;
     } ?>
 
+    <div id="form-recurso" style="display:none;">
+        <form method="POST" enctype="multipart/form-data">
 
-    <form method="POST" enctype="multipart/form-data">
+            <h2>Subir recurso</h2>
 
-        <h2>Subir recurso</h2>
+            Título del recurso: <input type="text" name="titulo" required>
 
-        Título del recurso: <input type="text" name="titulo" required>
+            Asignatura: <select name="id_asignatura" required>
 
-        Asignatura: <select name="id_asignatura" required>
+                <option value=""> -- Selecciona asignatura -- </option>
 
-            <option value=""> -- Selecciona asignatura -- </option>
+                <?php foreach ($asignaturas as $asig) {
+                    $selected = ($id_asignatura_seleccionada == $asig['id_asignatura']) ? 'selected' : '';
+                ?>
+                    <option value="<?= $asig['id_asignatura'] ?>" <?= $selected ?>> <?= $asig['nombre'] ?> </option>
 
-            <?php foreach ($asignaturas as $asig) {
-                $selected = ($id_asignatura_seleccionada == $asig['id_asignatura']) ? 'selected' : '';
-            ?>
-                <option value="<?= $asig['id_asignatura'] ?>" <?= $selected ?>> <?= $asig['nombre'] ?> </option>
+                <?php } ?>
+            </select>
 
-            <?php } ?>
-        </select>
+            <input type="file" name="archivo" required>
+            <button type="submit" name="subir"> Subir recurso</button>
+        </form>
 
-        <input type="file" name="archivo" required>
-        <button type="submit" name="subir"> Subir recurso</button>
-    </form>
+    </div>
+
+<div>
+    <button type="button" id="toggle-form" class="btn-crear">
+        + Subir recurso
+    </button>
+</div>
 
     <h1>Recursos</h1>
-
 
     <?php if ($recursos->num_rows > 0) { ?>
 
@@ -154,7 +182,38 @@ include "../plantillas/navbar_privado.php";
                         <td> <?= $recurso['titulo'] ?> </td>
                         <td> <?= $recurso['asignatura_nombre'] ?> </td>
                         <td> <?= date("d/m/Y", strtotime($recurso['fecha_subida'])) ?> </td>
-                        <td> <a href="../subidas/recursos/<?= $recurso['archivo'] ?>" target="_blank" class="btn-editar"> Abrir recurso </a></td>
+                        <td>
+
+                            <?php
+
+                            $archivo = $recurso['archivo'];
+
+                            // COMPROBAR SI ES UNA URL EXTERNA
+                            if (filter_var($archivo, FILTER_VALIDATE_URL)) {
+
+                            ?>
+
+                                <!-- ENLACE EXTERNO -->
+                                <a href="<?= $archivo ?>" target="_blank" class="btn-editar">
+                                    Abrir enlace
+                                </a>
+
+                            <?php } else { ?>
+
+                                <!-- ARCHIVO SUBIDO -->
+                                <a href="../subidas/recursos/<?= urlencode($archivo) ?>" target="_blank" class="btn-editar">
+                                    Abrir recurso
+                                </a>
+
+                            <?php } ?>
+
+                            <a href="?eliminar=<?= $recurso['id_recurso'] ?>"
+                                class="btn-eliminar"
+                                onclick="return confirm('¿Eliminar recurso?')">
+                                Eliminar
+                            </a>
+
+                        </td>
                     </tr>
                 <?php } ?>
             </tbody>
@@ -167,6 +226,25 @@ include "../plantillas/navbar_privado.php";
     <?php } ?>
 
 </main>
+
+<script>
+    const boton = document.getElementById("toggle-form");
+    const form = document.getElementById("form-recurso");
+
+    boton.addEventListener("click", function() {
+
+        if (form.style.display === "none") {
+
+            form.style.display = "block";
+            boton.textContent = "Cancelar";
+
+        } else {
+
+            form.style.display = "none";
+            boton.textContent = "+ Subir recurso";
+        }
+    });
+</script>
 
 <?php
 desconectar($conexion);
