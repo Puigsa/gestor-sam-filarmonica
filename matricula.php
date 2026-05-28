@@ -66,9 +66,11 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
     $nacimiento = new DateTime($fecha_nacimiento);
     $edad = $hoy->diff($nacimiento)->y;
 
-    if (empty($nombre) || empty($apellidos) || empty($email) ||
+    if (
+        empty($nombre) || empty($apellidos) || empty($email) ||
         empty($telefono) || empty($dni) || empty($fecha_nacimiento) ||
-        empty($id_curso) || empty($direccion)) {
+        empty($id_curso) || empty($direccion)
+    ) {
         $error = "<p class='mensaje_error'>Debe rellenar todos los campos obligatorios.</p>";
     } else if (!validarEmail($email)) {
         $error = "<p class='mensaje_error'>Email inválido</p>";
@@ -78,15 +80,14 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
         $error = "<p class='mensaje_error'>Teléfono inválido (9 dígitos)</p>";
     } else if ($edad < 0) {
         $error = "<p class='mensaje_error'>Fecha de nacimiento inválida</p>";
-    }else if ($edad < 18 && !$consentimiento) {
+    } else if ($edad < 18 && !$consentimiento) {
         $error = "<p class='mensaje_error'>Para menores de edad, debe dar consentimiento.</p>";
-    }else if ($edad < 18 && !validarDNI($tutor_dni)) {
+    } else if ($edad < 18 && !validarDNI($tutor_dni)) {
         $error = "<p class='mensaje_error'>DNI/NIE del tutor inválido</p>";
     } else if ($edad < 18 && !validarEmail($tutor_email)) {
         $error = "<p class='mensaje_error'>Email del tutor inválido</p>";
     } else if ($edad < 18 && !validarTelefono($tutor_telefono)) {
         $error = "<p class='mensaje_error'>Teléfono del tutor inválido (9 dígitos)</p>";
-    
     } else {
 
         // Si es menor, validar datos de tutor
@@ -237,7 +238,7 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
 
                             <?php while ($curso = $cursos->fetch_assoc()) { ?>
                                 <option value="<?= $curso['id_curso'] ?>" <?php if ($id_curso == $curso['id_curso'])
-                                      echo "selected" ?>>
+                                                                                echo "selected" ?>>
                                     <?= $curso['nombre'] ?>
                                 </option>
                             <?php } ?>
@@ -253,7 +254,7 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
 
                             <?php while ($i = $instrumentos->fetch_assoc()) { ?>
                                 <option value="<?= $i['id_instrumento'] ?>" <?php if ($id_instrumento == $i['id_instrumento'])
-                                      echo "selected" ?>>
+                                                                                echo "selected" ?>>
                                     <?= $i['nombre'] ?>
                                 </option>
                             <?php } ?>
@@ -276,52 +277,106 @@ if ($plazo_abierto && isset($_POST['prematricular'])) {
 </main>
 
 <script>
-    // Mostrar/ocultar campos de tutor según edad
+
+    /*
+        FUNCIÓN:
+        Mostrar u ocultar los campos del tutor legal
+        dependiendo de si el alumno es menor de edad
+    */
     function mostrarTutor() {
-        const fecha = document.getElementById('fecha_nacimiento').value;
-        if (!fecha) {
-            return;
-        }
 
-        const hoy = new Date();
-        const nacimiento = new Date(fecha);
+    const fecha = document.getElementById('fecha_nacimiento');
+    const tutor = document.getElementById('campos-tutor');
 
-        let edad = hoy.getFullYear() - nacimiento.getFullYear();
-        const mes = hoy.getMonth() - nacimiento.getMonth();
+    if (!fecha || !tutor) return;
 
-        if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
-            edad--;
-        }
+    // SI NO HAY FECHA
+    if (!fecha.value) {
 
-        if (edad < 18) {
-            document.getElementById('campos-tutor').style.display = 'block';
-        }else {
-            document.getElementById('campos-tutor').style.display = 'none';
-        }
+        tutor.style.display = 'none';
+        return;
     }
 
+    const hoy = new Date();
+    const nacimiento = new Date(fecha.value);
+    let edad = hoy.getFullYear() - nacimiento.getFullYear();
+    const mes = hoy.getMonth() - nacimiento.getMonth();
 
-    // Cargar asignaturas al cambiar curso
-    document.getElementById('id_curso').addEventListener('change', function () {
+    if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+        edad--;
+    }
+
+    // MENOR DE EDAD
+    if (edad < 18) {
+        tutor.style.display = 'block';
+    } else {
+        tutor.style.display = 'none';
+    }
+}
+
+
+// EJECUTAR AL CARGAR
+mostrarTutor();
+
+
+    /*
+        CUANDO CARGA LA PÁGINA:
+        - comprobar edad actual
+        - añadir evento change al input fecha
+    */
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // Ejecutar validación al cargar
+        mostrarTutor();
+
+        // Escuchar cambios en fecha nacimiento
+        document.getElementById('fecha_nacimiento')
+            .addEventListener('change', mostrarTutor);
+
+    });
+
+
+    /*
+        CARGAR ASIGNATURAS DINÁMICAMENTE
+        cuando cambia el curso seleccionado
+    */
+    document.getElementById('id_curso').addEventListener('change', function() {
+
+        // Obtener id curso
         let idCurso = this.value;
 
+        // Si no hay curso seleccionado
         if (!idCurso) {
+
+            // Vaciar asignaturas
             document.getElementById('asignaturas').innerHTML = "";
+
             return;
         }
 
+        /*
+            Llamada AJAX al archivo PHP
+            que devuelve las asignaturas
+        */
         fetch('./ajax/asignaturas_curso.php?id_curso=' + idCurso)
+
             .then(res => res.text())
             .then(data => {
+
+                // Insertar HTML recibido
                 document.getElementById('asignaturas').innerHTML = data;
+
             })
+
             .catch(error => {
-                document.getElementById('asignaturas').innerHTML = "Error cargando asignaturas";
+
+                // Mostrar error si falla
+                document.getElementById('asignaturas').innerHTML =
+                    "Error cargando asignaturas";
+
             });
     });
 
-    // Mostrar tutor al cargar si ya hay fecha
-    window.addEventListener('load', mostrarTutor);
 </script>
 
 <?php

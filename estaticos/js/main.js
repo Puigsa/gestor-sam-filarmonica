@@ -126,9 +126,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error:', error));
     }
 });
-// ================================
+
 // VALIDACIÓN FORMULARIOS USUARIOS
-// ================================
 document.addEventListener('DOMContentLoaded', function () {
 
     const reglas = {

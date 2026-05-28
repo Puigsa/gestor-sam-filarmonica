@@ -56,7 +56,7 @@ if (isset($_SESSION['mensaje_exito'])) {
                 <thead>
                     <tr>
                         <th>Nombre</th>
-                        <th>Email</th>
+                        <th class="ocultar-mobile">Email</th>
                         <th class="ocultar-mobile">Teléfono</th>
                         <th>Curso</th>
                         <th>Instrumento</th>
@@ -68,7 +68,7 @@ if (isset($_SESSION['mensaje_exito'])) {
                     <?php while ($pre = $prematriculas->fetch_assoc()) { ?>
                         <tr>
                             <td><?= $pre['nombre'] . ' ' . $pre['apellidos'] ?></td>
-                            <td><?= $pre['email'] ?></td>
+                            <td class="ocultar-mobile"><?= $pre['email'] ?></td>
                             <td class="ocultar-mobile"><?= $pre['telefono'] ?></td>
                             <td><?= $pre['id_curso'] ?></td>
                             <td><?= $pre['id_instrumento'] ?></td>

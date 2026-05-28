@@ -219,9 +219,7 @@ include "../plantillas/navbar_privado.php";
             <span class="error-campo" id="error-dni"></span>
 
             Fecha de nacimiento: <input type="date" id="fecha_nacimiento" name="fecha_nacimiento"
-                value="<?= isset($_POST['fecha_nacimiento']) ? $_POST['fecha_nacimiento'] : $datos['fecha_nacimiento'] ?>"
-                onchange="validarFecha()">
-
+                 value="<?= isset($_POST['fecha_nacimiento']) ? $_POST['fecha_nacimiento'] : $datos['fecha_nacimiento'] ?>" onchange="mostrarTutor()" required>
             Dirección: <input type="text" name="direccion" id="direccion"
                 value="<?= isset($_POST['direccion']) ? $_POST['direccion'] : $datos['direccion'] ?>" required>
             <span class="error-campo" id="error-direccion"></span>
@@ -290,25 +288,39 @@ include "../plantillas/navbar_privado.php";
 </main>
 
 <script>
+function mostrarTutor() {
 
-    function validarFecha() {
-        const fecha = document.getElementById('fecha_nacimiento').value;
-        const fieldset = document.getElementById('campos-tutor');
-        if (!fecha) return;
+    const fecha = document.getElementById('fecha_nacimiento');
+    const tutor = document.getElementById('campos-tutor');
 
-        const hoy = new Date();
-        const nacimiento = new Date(fecha);
-        let edad = hoy.getFullYear() - nacimiento.getFullYear();
-        const mes = hoy.getMonth() - nacimiento.getMonth();
+    if (!fecha || !tutor) return;
 
-        if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
-            edad--;
-        }
+    // SI NO HAY FECHA
+    if (!fecha.value) {
 
-        fieldset.style.display = edad < 18 ? 'block' : 'none';
+        tutor.style.display = 'none';
+        return;
     }
 
-    window.addEventListener('load', validarFecha);
+    const hoy = new Date();
+    const nacimiento = new Date(fecha.value);
+    let edad = hoy.getFullYear() - nacimiento.getFullYear();
+    const mes = hoy.getMonth() - nacimiento.getMonth();
+
+    if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+        edad--;
+    }
+
+    // MENOR DE EDAD
+    if (edad < 18) {
+        tutor.style.display = 'block';
+    } else {
+        tutor.style.display = 'none';
+    }
+}
+
+// EJECUTAR AL CARGAR
+mostrarTutor();
 
 </script>
 

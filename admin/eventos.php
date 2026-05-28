@@ -45,7 +45,6 @@ include "../plantillas/navbar_privado.php";
                     <td><?= $evento['lugar'] ?></td>
                     <td><?= $evento['publicado'] ? 'Sí' : 'No' ?></td>
                     <td>
-                        <a href="editar_evento.php?id=<?= $evento['id_evento'] ?>" class="btn-editar">Editar</a>
                         <a href="eliminar_evento.php?id=<?= $evento['id_evento'] ?>" class="btn-eliminar" onclick="return confirm('¿Estás seguro?')">Eliminar</a>
                     </td>
                 </tr>

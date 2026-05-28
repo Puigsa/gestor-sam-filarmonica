@@ -1,4 +1,3 @@
-
 <?php
 require_once "../includes/config.php";
 require_once "../includes/funciones.php";
@@ -29,7 +28,7 @@ if (isset($_POST['editar'])) {
     $concepto = trim($_POST['concepto']);
 
     $sql = "UPDATE pagos SET estado='$estado', metodo='$metodo', concepto='$concepto' WHERE id_pago=$id";
-    
+
     if ($conexion->query($sql)) {
         $_SESSION['mensaje'] = "<p class='mensaje_exito'>Pago actualizado correctamente</p>";
         header("Location: pagos.php");
@@ -48,20 +47,35 @@ include "../plantillas/navbar_privado.php";
 <main class="main">
     <?php botonVolver(); ?>
     <h1>Editar pago</h1>
-    
+
     <form method="POST">
-        <select name="estado" required>
+        Estado: <select name="estado" required>
             <option value="pendiente" <?= $datos['estado'] == 'pendiente' ? 'selected' : '' ?>>Pendiente</option>
             <option value="pagado" <?= $datos['estado'] == 'pagado' ? 'selected' : '' ?>>Pagado</option>
             <option value="vencido" <?= $datos['estado'] == 'vencido' ? 'selected' : '' ?>>Vencido</option>
         </select>
-        
-        <input type="text" name="metodo" value="<?= $datos['metodo'] ?>" placeholder="Método de pago">
-        <textarea name="concepto" rows="4" placeholder="Concepto"><?= $datos['concepto'] ?></textarea>
-        
+
+        Método: <select name="metodo" required>
+            <option value="efectivo"
+                <?= $datos['metodo'] == 'efectivo' ? 'selected' : '' ?>>
+                Efectivo
+            </option>
+
+            <option value="transferencia"
+                <?= $datos['metodo'] == 'transferencia' ? 'selected' : '' ?>>
+                Transferencia
+            </option>
+
+            <option value="tarjeta"
+                <?= $datos['metodo'] == 'tarjeta' ? 'selected' : '' ?>>
+                Tarjeta
+            </option>
+        </select> 
+        Concepto: <textarea name="concepto" rows="4" placeholder="Concepto"><?= $datos['concepto'] ?></textarea>
+
         <button type="submit" name="editar">Actualizar pago</button>
     </form>
-    
+
     <?php if (!empty($mensaje_error)) { ?>
         <?= $mensaje_error ?>
     <?php } ?>
