@@ -9,7 +9,8 @@ de una escuela de música.
 
 La documentación completa está disponible en:
 [https://Puigsa.github.io/gestor-sam-filarmonica](https://Puigsa.github.io/gestor-sam-filarmonica)
-
+- Guía de estilo (PDF): `guia-estilo.pdf`
+- Base de datos: `escuela_filarmonica.sql`
 ## Autor
 
 Realizado por [Sarai Martínez Puig](https://github.com/Puigsa)  
