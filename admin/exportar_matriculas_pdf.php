@@ -14,7 +14,7 @@ $estado = $_GET['estado'] ?? 'activa';
 $estados_validos = ['activa', 'finalizada', 'cancelada'];
 if (!in_array($estado, $estados_validos)) $estado = 'activa';
 
-$matriculas = $conexion->query("SELECT 
+$matriculas = $conexion->query("SELECT DISTINCt
                                 m.fecha_matricula, m.estado,
                                 u.nombre, u.apellidos, u.dni, u.email, u.telefono, u.fecha_nacimiento,
                                 c.nombre as curso_nombre,

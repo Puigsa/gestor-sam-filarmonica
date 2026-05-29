@@ -14,7 +14,7 @@ function conectar()
     $usuario = "root";
     $pass    = "";
     $db      = "escuela_filarmonica";
-    $conexion = new mysqli($host, $usuario, "", $db);
+    $conexion = new mysqli($host, $usuario, $pass, $db);
 
     if ($conexion->connect_error) {
         die("Error de conexión: " . $conexion->connect_error);

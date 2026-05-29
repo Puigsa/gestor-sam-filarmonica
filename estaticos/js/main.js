@@ -1,22 +1,27 @@
 /*   CALENDARIO   */
-
 document.addEventListener("DOMContentLoaded", function () {
   const calendario = document.getElementById("calendario");
 
   if (calendario) {
+
+    const vistaInicial =
+      window.innerWidth < 768 ? "listMonth" : "dayGridMonth";
+
     const calendar = new FullCalendar.Calendar(calendario, {
-      initialView: "dayGridMonth",
-      // Cambiar a vista de lista o día en móvil
-      windowResize: function (view) {
+      initialView: vistaInicial,
+
+      windowResize: function () {
         if (window.innerWidth < 768) {
           calendar.changeView("listMonth");
         } else {
           calendar.changeView("dayGridMonth");
         }
       },
+
       locale: "es",
       firstDay: 1,
       events: "ajax/eventos_calendario.php",
+
       eventClick: function (info) {
         mostrarDetalleEvento(info);
       },
@@ -167,17 +172,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         error.textContent = valido ? '' : reglas[id][1];
         return valido;
-    }
+    };
 
-    // Validar al perder el foco
-    Object.keys(reglas).forEach(function(id) {
-        const input = document.getElementById(id);
-        if (input) {
-            input.addEventListener('blur', function() {
-                validarCampo(id);
-            });
-        }
-    });
+    
 
     // Validar al enviar el formulario
     ['formCrear', 'formEditar', 'formAprobar'].forEach(function(idForm) {

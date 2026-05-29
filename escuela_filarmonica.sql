@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-05-2026 a las 23:33:06
+-- Tiempo de generación: 29-05-2026 a las 20:23:05
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -134,8 +134,8 @@ CREATE TABLE `eventos` (
 
 INSERT INTO `eventos` (`id_evento`, `titulo`, `descripcion`, `fecha`, `hora`, `lugar`, `publicado`, `cartel`) VALUES
 (2, 'Prueba', 'Prueba', '2026-05-29', '10:00:00', 'Callosa', 1, 'subidas/eventos/evento_6a1883ea99936.jpg'),
-(3, 'Audiciones Alumnado', '', '2026-06-12', '20:00:00', 'Vega Baja', 1, 'subidas/eventos/Eventoaudiciones.jpg'),
-(4, 'Festival Percusión', 'Descripción festival percusión', '2026-06-04', '20:00:00', 'Auditorio Municipal de Callosa de Segura', 1, 'subidas/eventos/evento_6a18858dcf1db.jpg');
+(4, 'Festival Percusión', 'Descripción festival percusión', '2026-06-04', '20:00:00', 'Auditorio Municipal de Callosa de Segura', 1, 'subidas/eventos/evento_6a18858dcf1db.jpg'),
+(5, 'Audiciones Alumnado', '', '2026-06-12', '10:00:00', 'Salón de actos', 1, 'subidas/eventos/evento_6a19d8e329491.jpg');
 
 -- --------------------------------------------------------
 
@@ -457,7 +457,7 @@ ALTER TABLE `cursos`
 -- AUTO_INCREMENT de la tabla `eventos`
 --
 ALTER TABLE `eventos`
-  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `instrumentos`
