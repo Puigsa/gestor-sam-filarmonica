@@ -134,8 +134,8 @@ CREATE TABLE `eventos` (
 
 INSERT INTO `eventos` (`id_evento`, `titulo`, `descripcion`, `fecha`, `hora`, `lugar`, `publicado`, `cartel`) VALUES
 (2, 'Prueba', 'Prueba', '2026-05-29', '10:00:00', 'Callosa', 1, 'subidas/eventos/evento_6a1883ea99936.jpg'),
-(4, 'Festival Percusión', 'Descripción festival percusión', '2026-06-04', '20:00:00', 'Auditorio Municipal de Callosa de Segura', 1, 'subidas/eventos/evento_6a18858dcf1db.jpg'),
-(5, 'Audiciones Alumnado', '', '2026-06-12', '10:00:00', 'Salón de actos', 1, 'subidas/eventos/evento_6a19d8e329491.jpg');
+(3, 'Audiciones Alumnado', '', '2026-06-12', '20:00:00', 'Vega Baja', 1, 'subidas/eventos/evento_6a19d8e329491.jpg'),
+(4, 'Festival Percusión', 'Descripción festival percusión', '2026-06-04', '20:00:00', 'Auditorio Municipal de Callosa de Segura', 1, 'subidas/eventos/evento_6a18858dcf1db.jpg');
 
 -- --------------------------------------------------------
 
@@ -200,13 +200,15 @@ CREATE TABLE `matriculas` (
 --
 
 INSERT INTO `matriculas` (`id_matricula`, `id_alumno`, `id_curso`, `id_instrumento`, `fecha_matricula`, `estado`, `observaciones`, `tutor_nombre`, `tutor_dni`, `tutor_email`, `tutor_telefono`, `tutor_consentimiento`) VALUES
-(1, 3, 2, 1, '2026-05-28', 'activa', 'Alumno de prueba', 'Tutor Prueba', '12345677L', 'tutor@email.com', '600999999', 1),
-(2, 4, 2, 1, '2026-05-28', 'activa', 'Alumno de prueba', 'María García López', '00000000T', 'maria.garcia@email.com', '612345678', 1),
-(3, 5, 2, 1, '2026-05-28', 'activa', 'Alumno de prueba', 'José Martínez Pérez', '11111111H', 'jose.martinez@email.com', '623456789', 1),
-(4, 6, 2, 1, '2026-05-28', 'activa', 'Alumno de prueba', 'Ana Ruiz Sánchez', '22222222J', 'ana.ruiz@email.com', '634567890', 1),
-(5, 7, 2, 1, '2026-05-28', 'activa', 'Alumno de prueba', 'Carlos Navarro Gil', '33333333P', 'carlos.navarro@email.com', '645678901', 1),
-(6, 8, 2, 1, '2026-05-28', 'activa', 'Alumno de prueba', 'Laura Torres Pérez', '44444444A', 'laura.torres@email.com', '656789012', 1),
-(10, 14, 1, 15, '2026-05-29', 'activa', NULL, 'TutorName', '12345678L', 'Tutor@email.com', '123456789', 1);
+(1, 3, 2, 1, '2026-05-28', 'activa', 'Alumno de prueba', 'Tutor Prueba', '12345678l', 'tutor@email.com', '600999999', 1),
+(2, 4, 2, 1, '2026-05-28', 'activa', 'Alumno de prueba', 'Tutor 1', NULL, NULL, '600111111', 0),
+(3, 5, 2, 1, '2026-05-28', 'activa', 'Alumno de prueba', 'Tutor 2', NULL, NULL, '600222222', 0),
+(4, 6, 2, 1, '2026-05-28', 'activa', 'Alumno de prueba', 'Tutor 3', NULL, NULL, '600333333', 0),
+(5, 7, 2, 1, '2026-05-28', 'activa', 'Alumno de prueba', 'Tutor 4', NULL, NULL, '600444444', 0),
+(6, 8, 2, 1, '2026-05-28', 'activa', 'Alumno de prueba', 'Tutor 5', NULL, NULL, '600555555', 0),
+(7, 4, 3, 2, '2026-04-12', 'activa', 'Alumno matriculado en curso avanzado', 'Tutor Curso 3', NULL, NULL, '600666661', 0),
+(8, 5, 4, 3, '2026-04-15', 'activa', 'Alumno matriculado en enseñanzas profesionales', 'Tutor Curso 4', NULL, NULL, '600666662', 0),
+(9, 6, 5, 4, '2026-04-18', 'activa', 'Alumno matriculado en curso superior', 'Tutor Curso 5', NULL, NULL, '600666663', 0);
 
 -- --------------------------------------------------------
 
@@ -236,7 +238,12 @@ INSERT INTO `pagos` (`id_pago`, `id_alumno`, `id_matricula`, `concepto`, `import
 (5, 4, 2, 'Matrícula 1º Enseñanzas Elementales', 150.00, 'pagado', '2026-05-01', 'efectivo', NULL),
 (6, 5, 3, 'Matrícula 1º Enseñanzas Elementales', 150.00, 'pagado', '2026-05-03', 'tarjeta', NULL),
 (7, 6, 4, 'Matrícula 1º Enseñanzas Elementales', 150.00, 'vencido', NULL, 'transferencia', NULL),
-(8, 7, 5, 'Matrícula 1º Enseñanzas Elementales', 150.00, 'pagado', '2026-05-05', 'efectivo', NULL);
+(8, 7, 5, 'Matrícula 1º Enseñanzas Elementales', 150.00, 'pagado', '2026-05-05', 'efectivo', NULL),
+(9, 8, 6, 'Matrícula 1º Enseñanzas Elementales', 150.00, 'pendiente', NULL, 'tarjeta', NULL),
+(10, 4, 7, 'Matrícula 2º Enseñanzas Elementales', 170.00, 'pagado', '2026-04-12', 'transferencia', NULL),
+(11, 5, 8, 'Matrícula 3º Enseñanzas Elementales', 180.00, 'pagado', '2026-04-15', 'efectivo', NULL),
+(12, 6, 9, 'Matrícula 4º Enseñanzas Elementales', 190.00, 'pendiente', NULL, 'transferencia', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -449,7 +456,7 @@ ALTER TABLE `cursos`
 -- AUTO_INCREMENT de la tabla `eventos`
 --
 ALTER TABLE `eventos`
-  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `instrumentos`
@@ -461,13 +468,13 @@ ALTER TABLE `instrumentos`
 -- AUTO_INCREMENT de la tabla `matriculas`
 --
 ALTER TABLE `matriculas`
-  MODIFY `id_matricula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_matricula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `prematriculas`
@@ -485,7 +492,7 @@ ALTER TABLE `recursos`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Restricciones para tablas volcadas
