@@ -3,7 +3,7 @@
 # ============================================
 
 
-title: Gestor Académico SAM La Filarmónica
+title: Gestor SAM La Filarmónica
 description: Aplicación web de gestión académica para escuela de música
 url: https://Puigsa.github.io/gestor-sam-filarmonica
 baseurl: /gestor-sam-filarmonica
@@ -15,7 +15,7 @@ remote_theme: just-the-docs/just-the-docs
 plugins:
   - jekyll-remote-theme
 
-color_scheme: light
+color_scheme: filarmonica
 search_enabled: true
 markdown: kramdown
 
@@ -32,3 +32,7 @@ aux_links:
     - "https://github.com/Puigsa"
   "Repositorio":
     - "https://github.com/Puigsa/gestor-sam-filarmonica"
+
+aux_links_new_tab: true
+
+footer_content: "Gestor SAM La Filarmónica &copy; 2026 · Realizado por Puigsa"

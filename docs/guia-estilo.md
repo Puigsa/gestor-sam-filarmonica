@@ -12,17 +12,14 @@ nav_order: 3
 * [Paleta de colores](#paleta-de-colores)
 * [Tipografía](#tipografía)
 * [Navegación y componentes](#navegación-y-componentes)
-
   * [Menú responsive](#menú-responsive)
   * [Tablas](#tablas)
   * [Formularios](#formularios)
   * [Tarjetas](#tarjetas)
   * [Mensajes de retroalimentación](#mensajes-de-retroalimentación)
 * [Imágenes y recursos gráficos](#imágenes-y-recursos-gráficos)
-
   * [Mascota institucional](#mascota-institucional)
 * [Diseño responsivo](#diseño-responsivo)
-
   * [Puntos de ruptura](#puntos-de-ruptura)
   * [Adaptaciones principales](#adaptaciones-principales)
 
@@ -68,7 +65,7 @@ La identidad visual toma como referencia los colores institucionales de la Socie
 | Gris oscuro | `#333333` | Texto principal                                 |
 | Blanco      | `#FFFFFF` | Fondos y contraste                              |
 
-<img src="img/paleta.PNG" alt="Paleta de colores" width="50%">
+<img src="img/paleta.png" alt="Paleta de colores" width="50%">
 
 ---
 
@@ -142,7 +139,7 @@ La aplicación incorpora:
 * Recursos multimedia.
 * Slideshow en la página principal mediante Fancybox.
 
-<img src="img/logo.PNG" alt="escudo" width="20%">
+<img src="img/logo.png" alt="escudo" width="20%">
 
 
 ### Mascota institucional
