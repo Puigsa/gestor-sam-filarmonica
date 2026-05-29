@@ -3,7 +3,7 @@ title: Flujo Principal
 nav_order: 4
 ---
 
-# 3. Flujo principal de negocio: del visitante al alumno activo
+# Flujo principal de negocio: del visitante al alumno activo
 
 El proceso central de la plataforma abarca desde que un visitante realiza una solicitud de prematrícula hasta que el alumno accede a su panel privado para consultar sus asignaturas, anuncios y recursos didácticos.
 

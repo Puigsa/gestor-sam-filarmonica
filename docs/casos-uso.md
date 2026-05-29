@@ -3,7 +3,7 @@ title: Casos de Uso
 nav_order: 5
 ---
 
-# 4. Casos de uso principales
+# Casos de uso principales
 
 Este capítulo recoge varios casos de uso representativos que complementan el flujo principal de negocio y muestran las funcionalidades más relevantes de la plataforma para administradores, profesorado y alumnado.
 

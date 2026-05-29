@@ -3,7 +3,7 @@ title: Arquitectura
 nav_order: 2
 ---
 
-## 2. Arquitectura General del Sistema
+# Arquitectura General del Sistema
 
 La aplicación sigue una arquitectura en capas clásica de aplicación web PHP. Cada solicitud HTTP es procesada por un script PHP que gestiona la lógica de negocio, consulta la base de datos mediante MySQLi y delega la presentación en plantillas HTML reutilizables. No se utiliza ningún framework.
 
