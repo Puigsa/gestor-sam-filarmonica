@@ -8,7 +8,7 @@ nav_order: 1
 
 ---
 
-<img src="img/home.PNG" width="50%">
+<img src="img/home.PNG" width="100%">
 
 ---
 
