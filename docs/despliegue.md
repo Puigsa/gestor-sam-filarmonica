@@ -147,7 +147,7 @@ $plazo_abierto = ($hoy >= $inicio_plazo && $hoy <= $fin_plazo);
 
 ## Documentación en GitHub Pages
 
-La documentación está publicada mediante **GitHub Pages** usando los archivos Markdown de la carpeta `docs/`. La configuración se encuentra en `docs/docs/_config.yml`.
+La documentación está publicada mediante **GitHub Pages** usando los archivos Markdown de la carpeta `docs/`. La configuración se encuentra en `docs/_config.yml`.
 
 ## Control de versiones
 
