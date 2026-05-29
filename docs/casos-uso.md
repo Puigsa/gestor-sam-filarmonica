@@ -21,7 +21,7 @@ El sistema genera un pago con `estado = 'pendiente'` al aprobar cada prematrícu
 
 **Tablas:** `pagos`, `matriculas`, `usuarios`
 
-<img src="img/pago.PNG" width="40%">
+<img src="img/pago.PNG" width="100%">
 ---
 
 ## CU-02: Publicación de anuncios
@@ -30,7 +30,7 @@ El profesor crea anuncios vinculados a una de sus asignaturas. El sistema los mu
 
 **Tablas:** `anuncios`, `asignaturas`, `usuarios`, `matriculas`
 
-<img src="img/anuncios.PNG" width="40%">
+<img src="img/anuncios.PNG" width="80%">
 
 ---
 
@@ -40,7 +40,7 @@ El profesor sube materiales (archivos o enlaces externos) vinculados a sus asign
 
 **Tablas:** `recursos`, `asignaturas`, `usuarios`, `matriculas`
 
-<img src="img/recursos.PNG" width="30%">
+<img src="img/recursos.PNG" width="60%">
 
 
 ---
@@ -51,7 +51,7 @@ El administrador publica eventos (conciertos, audiciones) con cartel, fecha, hor
 
 **Tablas:** `eventos`
 
-<img src="img/agenda.PNG" width="40%">
+<img src="img/agenda.PNG" width="80%">
 
 
 ---
@@ -67,5 +67,5 @@ Dos flujos de exportación con cabecera corporativa (logotipo + nombre de la esc
 
 **Tablas:** `matriculas`, `usuarios`, `cursos`, `instrumentos`, `asignaturas`
 
-<img src="img/pdf.PNG" width="40%">
+<img src="img/pdf.PNG" width="100%">
 
