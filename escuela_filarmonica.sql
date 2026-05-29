@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-05-2026 a las 20:23:05
+-- Tiempo de generación: 29-05-2026 a las 21:51:57
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -236,9 +236,7 @@ INSERT INTO `pagos` (`id_pago`, `id_alumno`, `id_matricula`, `concepto`, `import
 (5, 4, 2, 'Matrícula 1º Enseñanzas Elementales', 150.00, 'pagado', '2026-05-01', 'efectivo', NULL),
 (6, 5, 3, 'Matrícula 1º Enseñanzas Elementales', 150.00, 'pagado', '2026-05-03', 'tarjeta', NULL),
 (7, 6, 4, 'Matrícula 1º Enseñanzas Elementales', 150.00, 'vencido', NULL, 'transferencia', NULL),
-(8, 7, 5, 'Matrícula 1º Enseñanzas Elementales', 150.00, 'pagado', '2026-05-05', 'efectivo', NULL),
-(9, 8, 6, 'Matrícula 1º Enseñanzas Elementales', 150.00, 'pendiente', NULL, 'tarjeta', NULL),
-
+(8, 7, 5, 'Matrícula 1º Enseñanzas Elementales', 150.00, 'pagado', '2026-05-05', 'efectivo', NULL);
 -- --------------------------------------------------------
 
 --
@@ -304,6 +302,7 @@ INSERT INTO `recursos` (`id_recurso`, `id_asignatura`, `titulo`, `fecha_subida`,
 (11, 4, 'Biblioteca de partituras IMSLP', '2026-05-24', 2, 'https://imslp.org/'),
 (12, 5, 'Ejercicios rítmicos interactivos', '2026-05-26', 2, 'https://www.classicsforkids.com/games/rhythm'),
 (13, 5, 'Guía básica de respiración musical', '2026-05-28', 2, 'https://www.wikihow.com/Breathe-While-Playing-an-Instrument');
+
 -- --------------------------------------------------------
 
 --

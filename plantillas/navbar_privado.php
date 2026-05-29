@@ -49,7 +49,7 @@ $nombre = $_SESSION['nombre'];
 <!-- Sidebar -->
 <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
-        <img src="../estaticos/img/cecilio.png " alt="Logo">
+        <img src="../estaticos/img/cecilio.PNG " alt="Logo">
     </div>
 
     <nav class="sidebar-menu">
