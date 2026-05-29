@@ -2,57 +2,32 @@
 # CONFIGURACIÓN GITHUB PAGES - JUST THE DOCS
 # ============================================
 
-# Tema
-theme: just-the-docs
-
-# Metadatos principales
 title: Gestor Académico SAM La Filarmónica
 description: Aplicación web de gestión académica para escuela de música
 url: https://Puigsa.github.io/gestor-sam-filarmonica
 baseurl: /gestor-sam-filarmonica
 
-# Autor
 author: Realizado por Puigsa
 github_username: Puigsa
-email: sarai.martinez@example.com
 
-# Apariencia
-color_scheme: light
-# Opciones: light, dark
-
-# Navegación
-nav_order: 1
-has_children: false
-
-# Búsqueda
-search_enabled: true
-search:
-  heading_level: 2
-  previews: 2
-  preview_words_before: 5
-  preview_words_after: 10
-
-# Configuración de páginas
-aux_links:
-  "GitHub - Puigsa":
-    - "https://github.com/Puigsa"
-  "Repositorio del Proyecto":
-    - "https://github.com/Puigsa/gestor-sam-filarmonica"
-
-# Configuración técnica
-markdown: kramdown
-kramdown:
-  syntax_highlighter: rouge
-  syntax_highlighter_opts:
-    css_class: highlight
-
-# Plugins
+remote_theme: just-the-docs/just-the-docs
 plugins:
-  - jekyll-seo-tag
-  - jekyll-github-metadata
+  - jekyll-remote-theme
 
-# Archivos a excluir
-exclude:
-  - .gitignore
-  - README.md
-  - LICENSE
+color_scheme: light
+search_enabled: true
+markdown: kramdown
+
+# NAVEGACIÓN
+back_to_top: true
+back_to_top_text: "Volver arriba"
+breadcrumbs: true
+nav_footer: true
+heading_anchors: true
+
+# Enlaces superiores
+aux_links:
+  "Puigsa":
+    - "https://github.com/Puigsa"
+  "Repositorio":
+    - "https://github.com/Puigsa/gestor-sam-filarmonica"
