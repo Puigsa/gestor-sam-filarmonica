@@ -6,7 +6,6 @@ nav_order: 3
 # Guía de Estilo
 
 ## Índice
-
 * [Introducción](#introducción)
 * [Estructura visual](#estructura-visual)
 * [Paleta de colores](#paleta-de-colores)
@@ -27,7 +26,6 @@ nav_order: 3
 ## Introducción
 
 La interfaz de la aplicación ha sido diseñada siguiendo criterios de claridad, simplicidad y coherencia visual. El objetivo principal es ofrecer una experiencia de usuario intuitiva tanto para visitantes como para alumnos, profesores y administradores.
-
 El diseño se ha desarrollado siguiendo la metodología **Mobile First**, adaptándose posteriormente a tablet y escritorio mediante técnicas de diseño responsivo.
 
 ---
@@ -44,9 +42,7 @@ La aplicación mantiene una estructura homogénea en todas sus páginas:
 Se han utilizado elementos semánticos de HTML5 (`header`, `main`, `section`, `article`, `footer`) para mejorar la organización y accesibilidad del contenido.
 
 La maquetación de la aplicación combina principalmente las tecnologías CSS Flexbox y CSS Grid.
-
 **Flexbox** se utiliza para la distribución de elementos en una única dirección, especialmente en componentes como la barra de navegación, los formularios, los botones de acción y determinados bloques de contenido.
-
 **CSS Grid** se emplea para organizar estructuras más complejas, como la distribución de tarjetas, paneles de administración y algunas secciones de contenido que requieren varias columnas.
 
 La combinación de ambas técnicas permite construir una interfaz flexible, adaptable a distintos tamaños de pantalla y fácil de mantener.
@@ -65,7 +61,7 @@ La identidad visual toma como referencia los colores institucionales de la Socie
 | Gris oscuro | `#333333` | Texto principal                                 |
 | Blanco      | `#FFFFFF` | Fondos y contraste                              |
 
-<img src="img/paleta.png" alt="Paleta de colores" width="50%">
+<img src="img/paleta.png" alt="Paleta de colores" width="80%">
 
 ---
 
@@ -108,10 +104,12 @@ Los formularios mantienen una apariencia uniforme mediante estilos comunes y val
 
 Se utilizan tarjetas para mostrar cursos, asignaturas y distintos elementos visuales de forma clara y organizada.
 
-<img src="img/dashboard-desktop.PNG" width="30%">
-<img src="img/dashboard-tablet.PNG" width="20%">
-<img src="img/dashboard-movil.PNG" width="15%">
-<img src="img/menu-movil.PNG" width="15%">
+<img src="img/dashboard-desktop.PNG" width="80%">
+
+<img src="img/dashboard-tablet.PNG" width="40%">
+
+<img src="img/dashboard-movil.PNG" width="40%">
+<img src="img/menu-movil.PNG" width="40%">
 
 ### Mensajes de retroalimentación
 
@@ -122,7 +120,7 @@ La aplicación utiliza mensajes visuales diferenciados para informar al usuario 
 | Éxito | Fondo verde claro y texto verde |
 | Error | Fondo rojo claro y texto rojo oscuro |
 
-<img src="img/mensaje-exito.PNG" width="50%">
+<img src="img/mensaje-exito.PNG">
 
 Estos mensajes aparecen en operaciones como creación de matrículas, gestión de usuarios, subida de recursos o validación de formularios.
 
@@ -139,8 +137,7 @@ La aplicación incorpora:
 * Recursos multimedia.
 * Slideshow en la página principal mediante Fancybox.
 
-<img src="img/logo.png" alt="escudo" width="20%">
-
+<img src="img/logo.png" alt="escudo" >
 
 ### Mascota institucional
 
@@ -150,9 +147,7 @@ Su presencia tiene como objetivo aportar cercanía y reforzar la identidad propi
 
 La mascota se utiliza de forma decorativa y corporativa, manteniendo la coherencia visual con la imagen institucional de la entidad.
 
-<img src="img/cecilio.PNG" alt="Cecilio" width="20%">
-
----
+<img src="img/cecilio.PNG" alt="Cecilio" width="40%">
 
 ## Diseño responsivo
 
