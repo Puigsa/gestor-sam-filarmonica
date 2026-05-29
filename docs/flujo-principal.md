@@ -8,7 +8,7 @@ nav_order: 4
 El proceso central de la plataforma abarca desde que un visitante realiza una solicitud de prematrícula hasta que el alumno accede a su panel privado para consultar sus asignaturas, anuncios y recursos didácticos.
 
 
-<img src="img/flujo.png" width="50%">
+<img src="img/flujo.png" width="80%">
 
 *Figura 1. Flujo principal de negocio de la aplicación.*
 
@@ -22,7 +22,7 @@ Una vez enviada la solicitud y superadas las validaciones correspondientes, se r
 
 **Tablas implicadas:** `prematriculas`, `cursos`, `instrumentos`, `asignaturas`.
 
-<img src="img/formulario.PNG" width="30%">
+<img src="img/formulario.PNG" width="90%">
 
 
 ---
@@ -46,7 +46,7 @@ Este proceso constituye la operación principal de la aplicación, ya que transf
 **Tablas implicadas:** `prematriculas`, `usuarios`, `matriculas`, `cursos`, `pagos`.
 
 
-<img src="img/prematricula.PNG" width="40%">
+<img src="img/prematricula.PNG" width="90%">
 ---
 
 ## 3.3 Caso alternativo: rechazo de la solicitud
@@ -61,7 +61,7 @@ El administrador asigna un profesor a cada asignatura. Esta relación determina 
 
 **Tablas implicadas:** `asignaturas`, `usuarios`.
 
-<img src="img/asignar.PNG" width="40%">
+<img src="img/asignar.PNG" width="90%">
 
 ---
 
@@ -71,7 +71,7 @@ El profesorado accede a las asignaturas que tiene asignadas y puede consultar el
 
 **Tablas implicadas:** `asignaturas`, `matriculas`, `usuarios`, `instrumentos`, `cursos`.
 
-<img src="img/panelProfe.PNG" width="40%">
+<img src="img/panelProfe.PNG" width="90%">
 
 
 ---
@@ -90,4 +90,4 @@ Toda la información mostrada se encuentra filtrada según la matrícula activa 
 
 **Tablas implicadas:** `usuarios`, `matriculas`, `cursos`, `asignaturas`, `anuncios`, `recursos`.
 
-<img src="img/alumno.PNG" width="40%">
+<img src="img/alumno.PNG" width="90%">
