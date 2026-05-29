@@ -111,7 +111,7 @@ Las relaciones entre estas entidades permiten automatizar los procesos académic
 
 ## Diagrama entidad-relación
 
-<img src="img/er.png" width="50%">
+<img src="img/er.PNG" width="50%">
 
 ### 2.5 Funciones reutilizables y seguridad
 

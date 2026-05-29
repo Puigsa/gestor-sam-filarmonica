@@ -37,7 +37,7 @@ El **Gestor SAM Filarmónica** es una aplicación web desarrollada como proyecto
 
 Antes de la implantación de esta plataforma, la gestión de prematrículas, matrículas, pagos y comunicación con el alumnado se realizaba de forma manual, mediante papel y correos electrónicos. Esto generaba ineficiencias, riesgo de pérdida de información y dificultad para ofrecer un servicio ágil a las familias. La plataforma desarrollada resuelve estas necesidades proporcionando un entorno centralizado y securizado con acceso desde cualquier dispositivo.
 
-<img src="img/home.png" width="50%">
+<img src="img/home.PNG" width="50%">
 
 
 

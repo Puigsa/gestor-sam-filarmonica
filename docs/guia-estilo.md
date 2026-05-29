@@ -68,7 +68,7 @@ La identidad visual toma como referencia los colores institucionales de la Socie
 | Gris oscuro | `#333333` | Texto principal                                 |
 | Blanco      | `#FFFFFF` | Fondos y contraste                              |
 
-<img src="img/paleta.png" alt="Paleta de colores" width="50%">
+<img src="img/paleta.PNG" alt="Paleta de colores" width="50%">
 
 ---
 
@@ -111,10 +111,10 @@ Los formularios mantienen una apariencia uniforme mediante estilos comunes y val
 
 Se utilizan tarjetas para mostrar cursos, asignaturas y distintos elementos visuales de forma clara y organizada.
 
-<img src="img/dashboard-desktop.png" width="30%">
-<img src="img/dashboard-tablet.png" width="20%">
-<img src="img/dashboard-movil.png" width="15%">
-<img src="img/menu-movil.png" width="15%">
+<img src="img/dashboard-desktop.PNG" width="30%">
+<img src="img/dashboard-tablet.PNG" width="20%">
+<img src="img/dashboard-movil.PNG" width="15%">
+<img src="img/menu-movil.PNG" width="15%">
 
 ### Mensajes de retroalimentación
 
@@ -125,7 +125,7 @@ La aplicación utiliza mensajes visuales diferenciados para informar al usuario 
 | Éxito | Fondo verde claro y texto verde |
 | Error | Fondo rojo claro y texto rojo oscuro |
 
-<img src="img/mensaje-exito.png" width="50%">
+<img src="img/mensaje-exito.PNG" width="50%">
 
 Estos mensajes aparecen en operaciones como creación de matrículas, gestión de usuarios, subida de recursos o validación de formularios.
 
@@ -142,7 +142,7 @@ La aplicación incorpora:
 * Recursos multimedia.
 * Slideshow en la página principal mediante Fancybox.
 
-<img src="img/logo.png" alt="escudo" width="20%">
+<img src="img/logo.PNG" alt="escudo" width="20%">
 
 
 ### Mascota institucional
@@ -153,7 +153,7 @@ Su presencia tiene como objetivo aportar cercanía y reforzar la identidad propi
 
 La mascota se utiliza de forma decorativa y corporativa, manteniendo la coherencia visual con la imagen institucional de la entidad.
 
-<img src="img/cecilio.png" alt="Cecilio" width="20%">
+<img src="img/cecilio.PNG" alt="Cecilio" width="20%">
 
 ---
 
