@@ -7,7 +7,7 @@
     <title>SAM La Filarmónica</title>
 
     <link rel="stylesheet" href="estaticos/css/styles.css">
-    <script src="/gestor-sam-filarmonica/estaticos/js/main.js"></script>
+    <script src="estaticos/js/main.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
