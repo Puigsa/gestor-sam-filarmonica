@@ -72,7 +72,8 @@ include "../plantillas/navbar_privado.php";
 
         Fecha de nacimiento: <input type="date" name="fecha_nacimiento">
 
-        Dirección: <input type="text" name="direccion">
+        Dirección: <input type="text" name="direccion" id="direccion">
+        <span class="error-campo" id="error-direccion"></span>
 
         <select name="rol" required>
             <option value="">Selecciona un rol</option>

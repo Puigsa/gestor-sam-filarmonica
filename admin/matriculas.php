@@ -9,8 +9,11 @@ comprobarRol('admin');
 
 $conexion = conectar();
 
-// Prematrículas pendientes
-$prematriculas = $conexion->query("SELECT * FROM prematriculas WHERE estado='pendiente' ORDER BY fecha_solicitud DESC");
+// Prematrículas pendientes (paginar separadamente)
+$total_pre_result = $conexion->query("SELECT COUNT(*) AS total FROM prematriculas WHERE estado='pendiente'");
+$total_pre = $total_pre_result->fetch_assoc()['total'];
+$paginacion_pre = paginar($total_pre, 5, 'pagina_prematriculas');
+$prematriculas = $conexion->query("SELECT * FROM prematriculas WHERE estado='pendiente' ORDER BY fecha_solicitud DESC LIMIT {$paginacion_pre['offset']}, {$paginacion_pre['limite']}");
 
 // Matrículas formalizadas
 $estado = $_GET['estado'] ?? 'activa';
@@ -81,6 +84,7 @@ if (isset($_SESSION['mensaje_exito'])) {
                     <?php } ?>
                 </tbody>
             </table>
+            <?php mostrarPaginacion($paginacion_pre['pagina'], $paginacion_pre['total_paginas'], [], 'pagina_prematriculas'); ?>
         <?php } else { ?>
             <p>No hay prematrículas pendientes</p>
         <?php } ?>

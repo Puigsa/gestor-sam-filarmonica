@@ -19,7 +19,7 @@ if (isset($_POST['crear'])) {
     if (empty($nombre) || empty($curso_academico) || empty($plazas) || empty($precio)) {
         $mensaje = "Rellena los campos obligatorios";
     } else {
-        $existe = $conexion->query("SELECT id FROM cursos WHERE nombre='$nombre'");
+        $existe = $conexion->query("SELECT id_curso FROM cursos WHERE nombre='$nombre'");
         if ($existe->num_rows > 0) {
             $mensaje = "El curso ya existe";
         } else {

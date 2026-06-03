@@ -7,11 +7,19 @@ comprobarRol('admin');
 
 $conexion = conectar();
 
+// TOTAL
+$total_result = $conexion->query("SELECT COUNT(*) AS total FROM pagos");
+$total = $total_result->fetch_assoc()['total'];
+
+// PAGINACIÓN
+$paginacion = paginar($total, 5, 'pagina_pagos');
+
 $pagos = $conexion->query("SELECT p.*, u.nombre, u.apellidos, m.id_matricula
                            FROM pagos p 
                            JOIN usuarios u ON p.id_alumno = u.id_usuario 
                            JOIN matriculas m ON p.id_matricula = m.id_matricula 
-                           ORDER BY p.fecha_pago DESC");
+                           ORDER BY p.fecha_pago DESC
+                           LIMIT {$paginacion['offset']}, {$paginacion['limite']}");
 
 
 include "../plantillas/header_privado.php";
@@ -72,6 +80,7 @@ include "../plantillas/navbar_privado.php";
             } ?>
         </tbody>
     </table>
+    <?php mostrarPaginacion($paginacion['pagina'], $paginacion['total_paginas'], [], 'pagina_pagos'); ?>
 </main>
 
 <?php include "../plantillas/footer_privado.php"; ?>

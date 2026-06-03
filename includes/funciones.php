@@ -77,17 +77,17 @@ function validarTelefono($telefono) {
 
 
 // Paginación
-function paginar($total_registros, $registros_por_pagina){
+function paginar($total_registros, $registros_por_pagina, $param = 'pagina'){
 
-    $pagina = isset($_GET['pagina']) 
-        ? (int)$_GET['pagina'] 
+    $pagina = isset($_GET[$param])
+        ? (int)$_GET[$param]
         : 1;
 
     if($pagina < 1){
         $pagina = 1;
     }
 
-    $total_paginas = ceil($total_registros / $registros_por_pagina);
+    $total_paginas = ceil(max(1, $total_registros) / $registros_por_pagina);
 
     $offset = ($pagina - 1) * $registros_por_pagina;
 
@@ -95,11 +95,12 @@ function paginar($total_registros, $registros_por_pagina){
         'pagina' => $pagina,
         'total_paginas' => $total_paginas,
         'offset' => $offset,
-        'limite' => $registros_por_pagina
+        'limite' => $registros_por_pagina,
+        'param' => $param
     ];
 }
 
-function mostrarPaginacion($pagina_actual, $total_paginas, $params_extra = []) {
+function mostrarPaginacion($pagina_actual, $total_paginas, $params_extra = [], $param = 'pagina') {
 
     if ($total_paginas <= 1) return;
 
@@ -107,7 +108,7 @@ function mostrarPaginacion($pagina_actual, $total_paginas, $params_extra = []) {
 
     for ($i = 1; $i <= $total_paginas; $i++) {
 
-        $params = array_merge($params_extra, ['pagina' => $i]);
+        $params = array_merge($params_extra, [$param => $i]);
         $url    = '?' . http_build_query($params);
         $clase  = ($i == $pagina_actual) ? "pagina-activa" : "";
 

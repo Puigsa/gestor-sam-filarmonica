@@ -6,7 +6,15 @@ comprobarAcceso();
 comprobarRol('admin');
 
 $conexion = conectar();
-$cursos = $conexion->query("SELECT id_curso, nombre, descripcion, curso_academico, plazas, precio FROM cursos ORDER BY nombre ASC");
+
+// TOTAL
+$total_result = $conexion->query("SELECT COUNT(*) AS total FROM cursos");
+$total = $total_result->fetch_assoc()['total'];
+
+// PAGINACIÓN
+$paginacion = paginar($total, 5, 'pagina_cursos');
+
+$cursos = $conexion->query("SELECT id_curso, nombre, descripcion, curso_academico, plazas, precio FROM cursos ORDER BY nombre ASC LIMIT {$paginacion['offset']}, {$paginacion['limite']}");
 if (!$cursos) {
     die("Error SQL: " . $conexion->error);
 }
@@ -54,6 +62,7 @@ include "../plantillas/navbar_privado.php";
             <?php } ?>
         </tbody>
     </table>
+    <?php mostrarPaginacion($paginacion['pagina'], $paginacion['total_paginas'], [], 'pagina_cursos'); ?>
 </main>
 
 <?php include "../plantillas/footer_privado.php"; ?>

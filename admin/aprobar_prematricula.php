@@ -133,7 +133,7 @@ if (isset($_POST['aprobar'])) {
 
     // Verificar que el alumno no tiene otra matrícula activa
     if (empty($mensaje_error) && isset($id_alumno)) {
-        $alumno_activa = $conexion->query("SELECT id FROM matriculas WHERE id_alumno = $id_alumno AND estado = 'activa'");
+        $alumno_activa = $conexion->query("SELECT id_matricula FROM matriculas WHERE id_alumno = $id_alumno AND estado = 'activa'");
         if ($alumno_activa && $alumno_activa->num_rows > 0) {
             $mensaje_error = "El alumno ya tiene una matrícula activa";
         }
@@ -155,7 +155,7 @@ if (isset($_POST['aprobar'])) {
             $id_matricula = $conexion->insert_id;
 
             // Descontar una plaza del curso
-            $conexion->query("UPDATE cursos SET plazas = plazas - 1 WHERE id = $id_curso");
+            $conexion->query("UPDATE cursos SET plazas = plazas - 1 WHERE id_curso = $id_curso");
 
             // Crear pago pendiente para la matrícula
             $sql_pago = "INSERT INTO pagos (id_alumno, id_matricula, importe, estado) 

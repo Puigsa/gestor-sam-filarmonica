@@ -10,11 +10,18 @@ $conexion = conectar();
 $mensaje = "";
 
 
+$total_result = $conexion->query("SELECT COUNT(*) AS total FROM anuncios");
+$total = $total_result->fetch_assoc()['total'];
+
+// PAGINACIÓN
+$paginacion = paginar($total, 3, 'pagina_anuncios');
+
 $anuncios = $conexion->query("SELECT a.*, u.nombre AS profesor_nombre, c.nombre AS asignatura_nombre 
                                 FROM anuncios a 
                                 JOIN usuarios u ON a.id_profesor=u.id_usuario 
                                 JOIN asignaturas c ON a.id_asignatura=c.id_asignatura 
-                                ORDER BY a.fecha_publicacion DESC");
+                                ORDER BY a.fecha_publicacion DESC
+                                LIMIT {$paginacion['offset']}, {$paginacion['limite']}");
 
 if(isset($_GET['eliminar'])) {
     $id_anuncio = (int)$_GET['eliminar'];
@@ -69,6 +76,7 @@ include "../plantillas/navbar_privado.php";
             <?php } ?>
         </tbody>
     </table>
+    <?php mostrarPaginacion($paginacion['pagina'], $paginacion['total_paginas'], [], 'pagina_anuncios'); ?>
 </main>
 
 <?php 

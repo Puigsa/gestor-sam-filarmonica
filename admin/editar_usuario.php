@@ -78,7 +78,8 @@ include "../plantillas/navbar_privado.php";
 
         Fecha de nacimiento: <input type="date" name="fecha_nacimiento" value="<?= $datos['fecha_nacimiento'] ?>">
 
-        Dirección: <input type="text" name="direccion" value="<?= $datos['direccion'] ?>">
+        Dirección: <input type="text" name="direccion" id="direccion" value="<?= $datos['direccion'] ?>">
+        <span class="error-campo" id="error-direccion"></span>
 
         Rol: <select name="rol" required>
             <option value="admin" <?= $datos['rol'] == 'admin'    ? 'selected' : '' ?>>Admin</option>

@@ -33,7 +33,7 @@ if (isset($_POST['editar'])) {
 
     // Verificar que el alumno no tiene otra matrícula activa
     if ($estado == 'activa' && $datos['estado'] != 'activa') {
-    $alumno_activa = $conexion->query("SELECT id FROM matriculas WHERE id_alumno = {$datos['id_alumno']} AND estado = 'activa' AND id_matricula != $id");
+    $alumno_activa = $conexion->query("SELECT id_matricula FROM matriculas WHERE id_alumno = {$datos['id_alumno']} AND estado = 'activa' AND id_matricula != $id");
     if ($alumno_activa->num_rows > 0) {
         $_SESSION['mensaje_error'] = "El alumno ya tiene una matrícula activa";
         desconectar($conexion);

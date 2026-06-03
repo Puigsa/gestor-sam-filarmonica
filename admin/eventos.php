@@ -6,7 +6,15 @@ comprobarAcceso();
 comprobarRol('admin');
 
 $conexion = conectar();
-$eventos = $conexion->query("SELECT * FROM eventos ORDER BY fecha DESC");
+
+// TOTAL
+$total_result = $conexion->query("SELECT COUNT(*) AS total FROM eventos");
+$total = $total_result->fetch_assoc()['total'];
+
+// PAGINACIÓN
+$paginacion = paginar($total, 10, 'pagina_eventos');
+
+$eventos = $conexion->query("SELECT * FROM eventos ORDER BY fecha DESC LIMIT {$paginacion['offset']}, {$paginacion['limite']}");
 desconectar($conexion);
 
 include "../plantillas/header_privado.php";
@@ -51,6 +59,7 @@ include "../plantillas/navbar_privado.php";
             <?php } ?>
         </tbody>
     </table>
+    <?php mostrarPaginacion($paginacion['pagina'], $paginacion['total_paginas'], [], 'pagina_eventos'); ?>
 </main>
 
 <?php include "../plantillas/footer_privado.php"; ?>
