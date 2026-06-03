@@ -156,10 +156,11 @@ if (isset($_POST['aprobar'])) {
 
             // Descontar una plaza del curso
             $conexion->query("UPDATE cursos SET plazas = plazas - 1 WHERE id_curso = $id_curso");
-
+            $concepto = "Matrícula #" . $id_matricula;
+            
             // Crear pago pendiente para la matrícula
-            $sql_pago = "INSERT INTO pagos (id_alumno, id_matricula, importe, estado) 
-                     VALUES ($id_alumno, $id_matricula, $precio, 'pendiente')";
+            $sql_pago = "INSERT INTO pagos (id_alumno, id_matricula, concepto, importe, estado) 
+                     VALUES ($id_alumno, $id_matricula, '$concepto', $precio, 'pendiente')";
 
             $conexion->query($sql_pago);
 
