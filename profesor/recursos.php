@@ -51,60 +51,72 @@ while ($fila = $consulta_asignaturas->fetch_assoc()) {
 // SUBIR RECURSO
 if (isset($_POST['subir'])) {
 
-    $titulo = trim($_POST['titulo']);
-    $id_asignatura = (int)$_POST['id_asignatura'];
-    $id_asignatura_seleccionada = $id_asignatura;
+            $titulo = trim($_POST['titulo']);
+            $id_asignatura = (int)$_POST['id_asignatura'];
+            $id_asignatura_seleccionada = $id_asignatura;
 
-    if (empty($titulo) || empty($id_asignatura)) {
-        $mensaje = "<p class='mensaje_error'> Rellena todos los campos </p>";
-    } elseif (!isset($_FILES['archivo']) || $_FILES['archivo']['error'] != 0) {
+            // Permitir subir fichero O pegar una URL externa
+            $archivo_url = trim($_POST['archivo_url'] ?? '');
 
-        $mensaje = "
-            <p class='mensaje_error'>
-                Debes seleccionar un archivo
-            </p>
-        ";
-    } else {
-
-        $nombre_archivo = time() . "_" . basename($_FILES['archivo']['name']);
-        $ruta_destino = "../subidas/recursos/" . $nombre_archivo;
-
-        if (!is_dir("../subidas/recursos")) {
-            mkdir("../subidas/recursos", 0777, true);
-        }
-
-        $extensiones_permitidas = ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png', 'zip'];
-
-        $extension = explode('.', $_FILES['archivo']['name']);
-        $extension = strtolower(end($extension));
-
-        if (!in_array($extension, $extensiones_permitidas)) {
-
-            $mensaje = "<p class='mensaje_error'>Tipo de archivo no permitido</p>";
-        } else {
-
-            if ($_FILES['archivo']['size'] > 10 * 1024 * 1024) {
-                $mensaje = "<p class='mensaje_error'>El archivo es demasiado grande (máximo 10MB)</p>";
+            if (empty($titulo) || empty($id_asignatura)) {
+                $mensaje = "<p class='mensaje_error'> Rellena todos los campos </p>";
+            } elseif (empty($archivo_url) && (!isset($_FILES['archivo']) || $_FILES['archivo']['error'] != 0)) {
+                $mensaje = "<p class='mensaje_error'>Debes subir un archivo o pegar una URL</p>";
             } else {
 
-                if (move_uploaded_file($_FILES['archivo']['tmp_name'], $ruta_destino)) {
-                    $sql = "INSERT INTO recursos (titulo, archivo, id_asignatura, publicado_por, fecha_subida)
-                    VALUES ('$titulo', '$nombre_archivo', $id_asignatura, $id_profesor, NOW())";
-
-                    if ($conexion->query($sql)) {
-                        header("Location: recursos.php");
-                        exit;
+                // Si se proporcionó una URL válida, guardarla tal cual
+                if (!empty($archivo_url)) {
+                    if (!filter_var($archivo_url, FILTER_VALIDATE_URL)) {
+                        $mensaje = "<p class='mensaje_error'>URL no válida</p>";
                     } else {
+                        $nombre_archivo = $archivo_url;
+                        $sql = "INSERT INTO recursos (titulo, archivo, id_asignatura, publicado_por, fecha_subida)
+                                VALUES ('$titulo', '$nombre_archivo', $id_asignatura, $id_profesor, NOW())";
 
-                        $mensaje = "<p class='mensaje_error'>Error al guardar el recurso</p>";
+                        if ($conexion->query($sql)) {
+                            header("Location: recursos.php");
+                            exit;
+                        } else {
+                            $mensaje = "<p class='mensaje_error'>Error al guardar el recurso</p>";
+                        }
                     }
                 } else {
+                    // Manejar subida de archivo local
+                    $nombre_archivo = time() . "_" . basename($_FILES['archivo']['name']);
+                    $ruta_destino = "../subidas/recursos/" . $nombre_archivo;
 
-                    $mensaje = "<p class='mensaje_error'>Error al subir el archivo</p>";
+                    if (!is_dir("../subidas/recursos")) {
+                        mkdir("../subidas/recursos", 0777, true);
+                    }
+
+                    $extensiones_permitidas = ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png', 'zip'];
+
+                    $extension = explode('.', $_FILES['archivo']['name']);
+                    $extension = strtolower(end($extension));
+
+                    if (!in_array($extension, $extensiones_permitidas)) {
+                        $mensaje = "<p class='mensaje_error'>Tipo de archivo no permitido</p>";
+                    } else {
+                        if ($_FILES['archivo']['size'] > 10 * 1024 * 1024) {
+                            $mensaje = "<p class='mensaje_error'>El archivo es demasiado grande (máximo 10MB)</p>";
+                        } else {
+                            if (move_uploaded_file($_FILES['archivo']['tmp_name'], $ruta_destino)) {
+                                $sql = "INSERT INTO recursos (titulo, archivo, id_asignatura, publicado_por, fecha_subida)
+                                VALUES ('$titulo', '$nombre_archivo', $id_asignatura, $id_profesor, NOW())";
+
+                                if ($conexion->query($sql)) {
+                                    header("Location: recursos.php");
+                                    exit;
+                                } else {
+                                    $mensaje = "<p class='mensaje_error'>Error al guardar el recurso</p>";
+                                }
+                            } else {
+                                $mensaje = "<p class='mensaje_error'>Error al subir el archivo</p>";
+                            }
+                        }
+                    }
                 }
             }
-        }
-    }
 }
 
 
@@ -150,7 +162,22 @@ include "../plantillas/navbar_privado.php";
                 <?php } ?>
             </select>
 
-            <input type="file" name="archivo" required>
+            <label>Tipo de recurso:</label>
+            <select name="tipo_recurso" id="tipo_recurso">
+                <option value="archivo">Archivo</option>
+                <option value="enlace">Enlace (URL)</option>
+            </select>
+
+            <div id="campo-archivo">
+                <label>Subir archivo:</label>
+                <input type="file" name="archivo" id="input-archivo">
+            </div>
+
+            <div id="campo-enlace" style="display:none;">
+                <label>Pegar un enlace (URL):</label>
+                <input type="url" name="archivo_url" id="input-archivo_url" placeholder="https://ejemplo.com/recurso" />
+            </div>
+
             <button type="submit" name="subir"> Subir recurso</button>
         </form>
 
@@ -231,15 +258,37 @@ include "../plantillas/navbar_privado.php";
     const boton = document.getElementById("toggle-form");
     const form = document.getElementById("form-recurso");
 
+    const tipo = document.getElementById('tipo_recurso');
+    const campoArchivo = document.getElementById('campo-archivo');
+    const campoEnlace = document.getElementById('campo-enlace');
+    const inputArchivo = document.getElementById('input-archivo');
+    const inputArchivoUrl = document.getElementById('input-archivo_url');
+
+    function actualizarCampos() {
+        if (!tipo) return;
+        if (tipo.value === 'archivo') {
+            campoArchivo.style.display = 'block';
+            campoEnlace.style.display = 'none';
+            if (inputArchivo) inputArchivo.required = true;
+            if (inputArchivoUrl) { inputArchivoUrl.required = false; inputArchivoUrl.value = ''; }
+        } else {
+            campoArchivo.style.display = 'none';
+            campoEnlace.style.display = 'block';
+            if (inputArchivo) { inputArchivo.required = false; inputArchivo.value = ''; }
+            if (inputArchivoUrl) inputArchivoUrl.required = true;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        actualizarCampos();
+        if (tipo) tipo.addEventListener('change', actualizarCampos);
+    });
+
     boton.addEventListener("click", function() {
-
         if (form.style.display === "none") {
-
             form.style.display = "block";
             boton.textContent = "Cancelar";
-
         } else {
-
             form.style.display = "none";
             boton.textContent = "+ Subir recurso";
         }
